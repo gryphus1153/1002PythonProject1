@@ -122,5 +122,3 @@ tenderDict = processTenders(tenderFilePath)
 end = time.time() #end timer
 print("time taken(s):" + str(end-start))
 
-print("contra")
-
