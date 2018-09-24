@@ -5,7 +5,7 @@ import csv
 currentFileDir = os.path.dirname(__file__)
 
 # ------------------------------ Classes ------------------------------#
-class Address: #takes in address information from listing of registered contractors and
+class Address: #takes in address information from listing of registered contractors
     def __init__(self, building_no, street_name, unit_no, building_name, postal_code):
         self.building_no = building_no
         self.street_name = street_name
@@ -123,8 +123,8 @@ def procurementToFile(agencyDict): #Writes each agencies tender info into indivi
     for agency in agencyDict:
         agencyFilePath = os.path.join(agencyDir, agency)
         with open(agencyFilePath + ".txt", "w") as agencyFile:
-            for item in agency:
-                agencyFile.write(item)
+            for item in agencyDict[agency]:
+                agencyFile.write(item + "\n")
                 
 #contractor file info
 contractorFileRel = "ProjectDatasets\\listing-of-registered-contractors\\listing-of-registered-contractors.csv"
