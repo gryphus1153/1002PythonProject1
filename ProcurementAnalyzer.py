@@ -33,22 +33,22 @@ class Contractor:
         
     def toCSV(self):
         output = ""
-        for workhead in workheadGrade:
-            output += str(self.companyName + ", " + self.uen_no + ", " + self.workhead + ", " + self.workheadGrade[workhead] + ", " + self.additional_info + ", " + self.expiry_date + ", " + self.address.toCSV() + ", " + self.tel_no + "\n")
+        for workhead in self.workheadGrade:
+            output += str(self.companyName + ", " + self.uen_no + ", " + workhead + ", " + self.workheadGrade[workhead] + ", " + self.additional_info + ", " + self.expiry_date + ", " + self.address.toCSV() + ", " + self.tel_no + "\n")
         return output
         
 class Tender:
     def __init__(self, tender_no, agency, tender_description, award_date, tender_detail_status, supplierAwarded):
         self.tender_no = tender_no
         self.agency = agency
-        tender_description = tender_description
+        self.tender_description = tender_description
         self.award_date = award_date
         self.tender_detail_status = tender_detail_status
         self.supplierAwarded = supplierAwarded
 
     def toCSV(self):
         output = ""
-        for supplier in supplierAwarded:
+        for supplier in self.supplierAwarded:
             output += str(self.tender_no + ", " + self.agency + ", " + self.tender_description + ", " + self.award_date + ", " + self.tender_detail_status + ", " + supplier + ", " + self.supplierAwarded[supplier] + "\n")
         return output
         
@@ -65,7 +65,7 @@ def getFilePath(message):
         except Exception as e:
             print(e)
             
-def processContractors(contractorFilePath):
+def processContractors(contractorFilePath): #Read contractors from file, creates a Contractor object. Returns contractorDict. key = company_name
     with open(contractorFilePath) as contractorFile:
         reader = csv.DictReader(contractorFile,dialect="excel")
         contractorDict = {}
@@ -73,7 +73,7 @@ def processContractors(contractorFilePath):
             key = row["company_name"]
             
             if key in contractorDict:
-                #gets Contractor obj, appendss Workhead/Grade
+                #gets Contractor obj, appends Workhead/Grade
                 contractor = contractorDict[key]
                 contractor.workheadGrade[row["workhead"]] = row["grade"]
                 
@@ -86,24 +86,46 @@ def processContractors(contractorFilePath):
     print("Contractor Listing Loaded")
     return contractorDict
     
-def processTenders(tenderFilePath):
+def processTenders(tenderFilePath): #Read tenders from file, creates a Tender object. Returns tenderDict. key = tender_no
     with open(tenderFilePath) as tenderFile:
         tenderDict = {}
         reader = csv.DictReader(tenderFile, dialect = "excel")
         
         for row in reader:
             key = row["tender_no."]
-            
             if key in tenderDict:
-                tenderDict[key].supplierAwarded["supplier_name"] = awarded_amt
-                
+                tender = tenderDict[key]
+                tender.supplierAwarded[row["supplier_name"]] = row["awarded_amt"]
             else:
                 supplierAwarded = {row["supplier_name"]:row["awarded_amt"]}
                 tender = Tender(row["tender_no."], row["agency"], row["tender_description"], row["award_date"], row["tender_detail_status"], supplierAwarded)
-    
+                tenderDict[key] = tender
     print("Tender Listing Loaded")
     return tenderDict
 
+def getAgencyProcurement(tenderDict): #gets the procurement info of each agency. Returns agencyDict. key = agency name
+    agencyDict = {}
+    for tenderNo in tenderDict:
+        agency = tenderDict[tenderNo].agency
+        if agency in agencyDict:
+            agencyDict[agency].append(tenderNo)
+        else:
+            agencyDict[agency] = [tenderNo]
+    print("Agencies loaded")
+    return agencyDict
+
+def procurementToFile(agencyDict): #Writes each agencies tender info into individual files
+    agencyDir = currentFileDir + "\\Agencies"
+    
+    if not os.path.exists(agencyDir):
+        os.makedirs(agencyDir)
+        
+    for agency in agencyDict:
+        agencyFilePath = os.path.join(agencyDir, agency)
+        with open(agencyFilePath + ".txt", "w") as agencyFile:
+            for item in agency:
+                agencyFile.write(item)
+                
 #contractor file info
 contractorFileRel = "ProjectDatasets\\listing-of-registered-contractors\\listing-of-registered-contractors.csv"
 contractorFilePath = os.path.join(currentFileDir,contractorFileRel)
@@ -122,3 +144,8 @@ tenderDict = processTenders(tenderFilePath)
 end = time.time() #end timer
 print("time taken(s):" + str(end-start))
 
+start = time.time()
+agencyDict = getAgencyProcurement(tenderDict)
+procurementToFile(agencyDict)
+end = time.time() #end timer
+print("time taken(s):" + str(end-start))
