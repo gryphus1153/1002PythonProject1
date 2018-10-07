@@ -44,6 +44,7 @@ w = None
 import functionAmirulamin as Amin
 from GaryProjFunction3 import Gary
 from GaryProjOpenFunction import GaryOpen
+import chrisProject as Chris
 
 contractorDict = {}
 tenderDict = {}
@@ -204,11 +205,15 @@ class Load_CSV: #Func 1: Opening screen to load CSV
             global tenderDict
             global contractorPandas
             global tenderPandas
+            global dataDict
+            
             contractorDict = Amin.processContractors(self.Entry_C.get()) 
             tenderDict = Amin.processTenders(self.Entry_T.get())#dataFrame = ProjOpenFunction.garyopenfunction
             contractorPandas = pd.read_csv(self.Entry_C.get() , low_memory=False, dtype=str)#for li in dataFrame.values.tolist():
             tenderPandas = pd.read_csv(self.Entry_T.get() , low_memory=False, dtype=str)#    self.Scrolledlistbox1.insert(END, str(li))
-           
+            dataDict["chris"] = Chris.sortBy_workheads_grade_expiry(Chris.csvClass().read_csv(self.Entry_C.get()))
+            
+            
             #for li in ProjFunction3.garyfunction3("asc").values.tolist():
             #    self.Scrolledlistbox1.insert(END, str(li))
             
@@ -343,24 +348,47 @@ class MainPage: #MANY DOORS THAT GO EVERYWHERE
         self.TSeparator1.place(relx=0.307, rely=0, relheight=1.0)
         self.TSeparator1.configure(orient="vertical")
         
-        self.btn_col2 = Button(top)
-        self.btn_col2.place(relx=0.332, rely=0.045, height=33, width=146)
-        self.btn_col2.configure(activebackground="#d9d9d9")
-        self.btn_col2.configure(activeforeground="#000000")
-        self.btn_col2.configure(background="#d9d9d9")
-        self.btn_col2.configure(disabledforeground="#a3a3a3")
-        self.btn_col2.configure(foreground="#000000")
-        self.btn_col2.configure(highlightbackground="#d9d9d9")
-        self.btn_col2.configure(highlightcolor="black")
-        self.btn_col2.configure(pady="0")
-        self.btn_col2.configure(text='''Gary: Search by Area''')
-        self.btn_col2.configure(command=lambda: changeScreen("Dropdown_Search"))
-
-        self.menubar = Menu(top,font="TkMenuFont",bg=_bgcolor,fg=_fgcolor)
-        top.configure(menu = self.menubar)
+        #Gary: Search by Area
+        self.btn_Gary = Button(top)
+        self.btn_Gary.place(relx=0.332, rely=0.045, height=33, width=146)
+        self.btn_Gary.configure(activebackground="#d9d9d9")
+        self.btn_Gary.configure(activeforeground="#000000")
+        self.btn_Gary.configure(background="#d9d9d9")
+        self.btn_Gary.configure(disabledforeground="#a3a3a3")
+        self.btn_Gary.configure(foreground="#000000")
+        self.btn_Gary.configure(highlightbackground="#d9d9d9")
+        self.btn_Gary.configure(highlightcolor="black")
+        self.btn_Gary.configure(pady="0")
+        self.btn_Gary.configure(text='''Gary: Search by Area''')
+        self.btn_Gary.configure(command=lambda: changeScreen("Dropdown_Search", ty = "area"))
+        
+        self.btn_ChrisWorkhead = Button(top)
+        self.btn_ChrisWorkhead.place(relx=0.332, rely=0.133, height=33, width=146)
+        self.btn_ChrisWorkhead.configure(activebackground="#d9d9d9")
+        self.btn_ChrisWorkhead.configure(activeforeground="#000000")
+        self.btn_ChrisWorkhead.configure(background="#d9d9d9")
+        self.btn_ChrisWorkhead.configure(disabledforeground="#a3a3a3")
+        self.btn_ChrisWorkhead.configure(foreground="#000000")
+        self.btn_ChrisWorkhead.configure(highlightbackground="#d9d9d9")
+        self.btn_ChrisWorkhead.configure(highlightcolor="black")
+        self.btn_ChrisWorkhead.configure(pady="0")
+        self.btn_ChrisWorkhead.configure(text='''Chris: Search by Workhead''')
+        self.btn_ChrisWorkhead.configure(command=lambda: changeScreen("Dropdown_Search", ty = "workhead"))
+        
+        self.btn_ChrisExpired = Button(top)
+        self.btn_ChrisExpired.place(relx=0.332, rely=0.222, height=33, width=146)
+        self.btn_ChrisExpired.configure(activebackground="#d9d9d9")
+        self.btn_ChrisExpired.configure(activeforeground="#000000")
+        self.btn_ChrisExpired.configure(background="#d9d9d9")
+        self.btn_ChrisExpired.configure(disabledforeground="#a3a3a3")
+        self.btn_ChrisExpired.configure(foreground="#000000")
+        self.btn_ChrisExpired.configure(highlightbackground="#d9d9d9")
+        self.btn_ChrisExpired.configure(highlightcolor="black")
+        self.btn_ChrisExpired.configure(pady="0")
+        self.btn_ChrisExpired.configure(text='''Chris: Expired Contractors''')
+        self.btn_ChrisExpired.configure(command=lambda: changeScreen("View_Expired"))
         
         
-    
     def createData(self, type):
         evals = {"agencyDict":["View_Info_Agency", "Amin.getAgencyProcurement(tenderDict)"]}
         global dataDict
@@ -680,7 +708,7 @@ class Dropdown_Search:
         top.configure(background="#d9d9d9")
         top.configure(highlightbackground="#d9d9d9")
         top.configure(highlightcolor="black")
-
+        self.datatype = datatype
 
 
         self.btn_back = Button(top)
@@ -729,8 +757,15 @@ class Dropdown_Search:
         self.TCombobox1.configure(textvariable=ProcurementAnalyzerUI_support.combobox)
         self.TCombobox1.configure(takefocus="")
         self.TCombobox1.configure(cursor="fleur")
-        areas = ["Raffles Place", "Cecil", "Marina", "People's Park", "Anson", "Tanjong Pagar", "Queenstown", "Tiong Bahru", "Telok Blangah", "Harbourfront", "Pasir Panjang", "Hong Leong Garden", "Clementi New Town", "High Street", "Beach Road", "Middle Road", "Golden Mile", "Little India", "Orchard", "Cairnhill", "River Valley", "Ardmore", "Bukit Timah", "Holland Road", "Tanglin", "Watten Estate", "Novena", "Thomson", "Balestier", "Toa Payoh", "Serangoon", "Macpherson", "Braddell", "Geylang", "Eunos", "Katong", "Joo Chiat", "Amber Road", "Bedok", "Upper East Coast", "Eastwood", "Kew Drive", "Loyang", "Changi", "Tampines", "Pasir Ris", "Serangoon Garden", "Hougang", "Ponggol", "Bishan", "Ang Mo Kio", "Upper Bukit Timah", "Clementi Park", "Ulu Pandan", "Jurong", "Hillview", "Dairy Farm", "Bukit Panjang", "Choa Chu Kang", "Lim Chu Kang", "Tengah", "Kranji", "Woodgrove", "Upper Thomson", "Springleaf", "Yishun", "Sembawang", "Seletar"]
-        self.TCombobox1.configure(values = sorted(areas))
+        ProcurementAnalyzerUI_support.combobox = ""
+        if datatype == "area":
+            fill = ["Raffles Place", "Cecil", "Marina", "People's Park", "Anson", "Tanjong Pagar", "Queenstown", "Tiong Bahru", "Telok Blangah", "Harbourfront", "Pasir Panjang", "Hong Leong Garden", "Clementi New Town", "High Street", "Beach Road", "Middle Road", "Golden Mile", "Little India", "Orchard", "Cairnhill", "River Valley", "Ardmore", "Bukit Timah", "Holland Road", "Tanglin", "Watten Estate", "Novena", "Thomson", "Balestier", "Toa Payoh", "Serangoon", "Macpherson", "Braddell", "Geylang", "Eunos", "Katong", "Joo Chiat", "Amber Road", "Bedok", "Upper East Coast", "Eastwood", "Kew Drive", "Loyang", "Changi", "Tampines", "Pasir Ris", "Serangoon Garden", "Hougang", "Ponggol", "Bishan", "Ang Mo Kio", "Upper Bukit Timah", "Clementi Park", "Ulu Pandan", "Jurong", "Hillview", "Dairy Farm", "Bukit Panjang", "Choa Chu Kang", "Lim Chu Kang", "Tengah", "Kranji", "Woodgrove", "Upper Thomson", "Springleaf", "Yishun", "Sembawang", "Seletar"]
+            
+        elif datatype == "workhead":
+            fill = ["A1", "A2", "B1", "B2", "C1", "C2", "C3", "SingleGrade", "L6", "L5", "L4", "L3", "L2", "L1"]
+        
+        self.TCombobox1.configure(values = sorted(fill))
+        
         
         self.btn_search = Button(top)
         self.btn_search.place(relx=0.633, rely=0.889, height=33, width=56)
@@ -743,21 +778,28 @@ class Dropdown_Search:
         self.btn_search.configure(highlightcolor="black")
         self.btn_search.configure(pady="0")
         self.btn_search.configure(text='''Search''')
-        self.btn_search.configure(command=lambda: self.getContractors())
+        self.btn_search.configure(command=lambda: self.getData())
         
-    def getContractors(self):
-        area = self.TCombobox1.get()
-        if area != "":
-            if "GaryOpen" not in dataDict:
-                dataDict["GaryOpen"] = GaryOpen(contractorPandas)
-                
+    def getData(self):
+        selection = self.TCombobox1.get()
+        if self.datatype == "area":
+            
+            if selection != "":
+                if "GaryOpen" not in dataDict:
+                    dataDict["GaryOpen"] = GaryOpen(contractorPandas)
+                    
+                self.Scrolledlistbox1.delete(0,END)
+                dataset = dataDict["GaryOpen"].Gopenfunc(selection)
+                if isinstance(dataset, str):
+                    self.Scrolledlistbox1.insert(END, dataset)
+                else:
+                    for contractor in dataset["company_name"]:
+                        self.Scrolledlistbox1.insert(END, contractor)
+                    
+        elif self.datatype == "workhead":
             self.Scrolledlistbox1.delete(0,END)
-            dataset = dataDict["GaryOpen"].Gopenfunc(area)
-            if isinstance(dataset, str):
-                self.Scrolledlistbox1.insert(END, dataset)
-            else:
-                for contractor in dataset["company_name"]:
-                    self.Scrolledlistbox1.insert(END, contractor)
+            for contractor in dataDict["chris"].workheadGrade(selection):
+                self.Scrolledlistbox1.insert(END, contractor[0])
                     
     def sendActive(self):
         dataObj = contractorDict[self.Scrolledlistbox1.get(ACTIVE)]
@@ -766,7 +808,112 @@ class Dropdown_Search:
             
         print data
         newWindow(cla,data)
+
+        
+class View_Expired: #Chris :View Expired Contractors
+    def __init__(self, top=None, dataset=None, datatype=None):
+        '''This class configures and populates the toplevel window.
+           top is the toplevel containing window.'''
+        _bgcolor = '#d9d9d9'  # X11 color: 'gray85'
+        _fgcolor = '#000000'  # X11 color: 'black'
+        _compcolor = '#d9d9d9' # X11 color: 'gray85'
+        _ana1color = '#d9d9d9' # X11 color: 'gray85' 
+        _ana2color = '#d9d9d9' # X11 color: 'gray85' 
+        self.style = ttk.Style()
+        if sys.platform == "win32":
+            self.style.theme_use('winnative')
+        self.style.configure('.',background=_bgcolor)
+        self.style.configure('.',foreground=_fgcolor)
+        self.style.map('.',background=
+            [('selected', _compcolor), ('active',_ana2color)])
+
+        top.geometry("600x450")
+        top.title("View Total Procurement")
+        top.configure(background="#d9d9d9")
+        
+
+        self.btn_back = Button(top)
+        self.btn_back.place(relx=0.033, rely=0.889, height=33, width=83)
+        self.btn_back.configure(activebackground="#d9d9d9")
+        self.btn_back.configure(activeforeground="#000000")
+        self.btn_back.configure(background="#d9d9d9")
+        self.btn_back.configure(disabledforeground="#a3a3a3")
+        self.btn_back.configure(foreground="#000000")
+        self.btn_back.configure(highlightbackground="#d9d9d9")
+        self.btn_back.configure(highlightcolor="black")
+        self.btn_back.configure(pady="0")
+        self.btn_back.configure(text='''Back''')
+        self.btn_back.configure(width=83)
+        self.btn_back.configure(command = lambda: changeScreen("MainPage"))
+
+        self.Scrolledlistbox1 = ScrolledListBox(top)
+        self.Scrolledlistbox1.place(relx=0.033, rely=0.044, relheight=0.816
+                , relwidth=0.925)
+        self.Scrolledlistbox1.configure(background="white")
+        self.Scrolledlistbox1.configure(disabledforeground="black")
+        self.Scrolledlistbox1.configure(font="TkFixedFont")
+        self.Scrolledlistbox1.configure(foreground="black")
+        self.Scrolledlistbox1.configure(highlightbackground="#d9d9d9")
+        self.Scrolledlistbox1.configure(highlightcolor="#d9d9d9")
+        self.Scrolledlistbox1.configure(selectbackground="#c4c4c4")
+        self.Scrolledlistbox1.configure(selectforeground="black")
+        self.Scrolledlistbox1.configure(width=10)
+        self.sortState = "expired"
+        
+        dataset = dataDict["chris"].expiredCompany()
+        for key in dataset:
+            self.Scrolledlistbox1.insert(END, key[0])
+
+        self.btn_expired = Button(top)
+        self.btn_expired.place(relx=0.670, rely=0.889, height=33, width=83)
+        self.btn_expired.configure(activebackground="#d9d9d9")
+        self.btn_expired.configure(activeforeground="#000000")
+        self.btn_expired.configure(background="#d9d9d9")
+        self.btn_expired.configure(disabledforeground="#a3a3a3")
+        self.btn_expired.configure(foreground="#000000")
+        self.btn_expired.configure(highlightbackground="#d9d9d9")
+        self.btn_expired.configure(highlightcolor="black")
+        self.btn_expired.configure(pady="0")
+        self.btn_expired.configure(text='''Not Expired''')
+        self.btn_expired.configure(command = lambda: self.sort())
+        
+        self.btn_access = Button(top)
+        self.btn_access.place(relx=0.817, rely=0.889, height=33, width=83)
+        self.btn_access.configure(activebackground="#d9d9d9")
+        self.btn_access.configure(activeforeground="#000000")
+        self.btn_access.configure(background="#d9d9d9")
+        self.btn_access.configure(disabledforeground="#a3a3a3")
+        self.btn_access.configure(foreground="#000000")
+        self.btn_access.configure(highlightbackground="#d9d9d9")
+        self.btn_access.configure(highlightcolor="black")
+        self.btn_access.configure(pady="0")
+        self.btn_access.configure(text='''Access''')
+        self.btn_access.configure(command = lambda: self.sendActive())
+        
+        
+    def sort(self):
+        if self.sortState == "expired":
+            self.sortState = "notexpired"
+            self.btn_expired.configure(text='''Expired''')
+            dataset = dataDict["chris"].nonExpiredCompany()
+        else:
+            self.sortState = "expired"
+            self.btn_expired.configure(text='''Not Expired''')
+            dataset = dataDict["chris"].expiredCompany()
+        
+        self.Scrolledlistbox1.delete(0,END)
+        for key in dataset:
+            self.Scrolledlistbox1.insert(END, key[0])
             
+    def sendActive(self):
+        dataObj = contractorDict[self.Scrolledlistbox1.get(ACTIVE)]
+        data = [dataObj.company_name, dataObj.uen_no, dataObj.address.toAddress(), dataObj.tel_no, dataObj.expiry_date, dataObj.workheadGrade]
+        cla = "View_Contractor"
+            
+        print data
+        newWindow(cla,data)
+        
+
 class View_Contractor: #Shows Contractor Details
     def __init__(self, top=None, dataset=None):
         '''This class configures and populates the toplevel window.
