@@ -757,11 +757,14 @@ class Dropdown_Search:
         self.TCombobox1.configure(textvariable=ProcurementAnalyzerUI_support.combobox)
         self.TCombobox1.configure(takefocus="")
         self.TCombobox1.configure(cursor="fleur")
+        self.TCombobox1.configure(state="readonly")
         ProcurementAnalyzerUI_support.combobox = ""
         if datatype == "area":
+            self.TCombobox1.set("Amber Road")
             fill = ["Raffles Place", "Cecil", "Marina", "People's Park", "Anson", "Tanjong Pagar", "Queenstown", "Tiong Bahru", "Telok Blangah", "Harbourfront", "Pasir Panjang", "Hong Leong Garden", "Clementi New Town", "High Street", "Beach Road", "Middle Road", "Golden Mile", "Little India", "Orchard", "Cairnhill", "River Valley", "Ardmore", "Bukit Timah", "Holland Road", "Tanglin", "Watten Estate", "Novena", "Thomson", "Balestier", "Toa Payoh", "Serangoon", "Macpherson", "Braddell", "Geylang", "Eunos", "Katong", "Joo Chiat", "Amber Road", "Bedok", "Upper East Coast", "Eastwood", "Kew Drive", "Loyang", "Changi", "Tampines", "Pasir Ris", "Serangoon Garden", "Hougang", "Ponggol", "Bishan", "Ang Mo Kio", "Upper Bukit Timah", "Clementi Park", "Ulu Pandan", "Jurong", "Hillview", "Dairy Farm", "Bukit Panjang", "Choa Chu Kang", "Lim Chu Kang", "Tengah", "Kranji", "Woodgrove", "Upper Thomson", "Springleaf", "Yishun", "Sembawang", "Seletar"]
             
         elif datatype == "workhead":
+            self.TCombobox1.set("A1")
             fill = ["A1", "A2", "B1", "B2", "C1", "C2", "C3", "SingleGrade", "L6", "L5", "L4", "L3", "L2", "L1"]
         
         self.TCombobox1.configure(values = sorted(fill))
