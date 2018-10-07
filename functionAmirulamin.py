@@ -3,7 +3,7 @@ import os
 import PAClasses
 currentFileDir = os.path.dirname(__file__)
 
-def getFilePath(message): #!!!!!!Currently Unused!!!!!#
+def getFilePath(message): #!!!!!!Currently Unused!!!!!
     cDone = True
     #check if files exist
     while(True):

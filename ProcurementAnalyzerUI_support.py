@@ -20,6 +20,10 @@ try:
 except ImportError:
     import tkinter.ttk as ttk
     py3 = True
+    
+def set_Tk_var():
+    global combobox
+    combobox = StringVar()
 
 
 def init(top, gui, *args, **kwargs):
