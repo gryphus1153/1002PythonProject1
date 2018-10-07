@@ -45,6 +45,7 @@ import functionAmirulamin as Amin
 from GaryProjFunction3 import Gary
 from GaryProjOpenFunction import GaryOpen
 import chrisProject as Chris
+import CategorisedSpending as Shirlene
 
 contractorDict = {}
 tenderDict = {}
@@ -57,22 +58,22 @@ dataDict = {} #stores the general purpose data sets
 currentFileDir = os.path.dirname(__file__)
 
 #default contractor file info
-contractorFileRel = "ProjectDatasets\\listing-of-registered-contractors\\listing-of-registered-contractors.csv"
+contractorFileRel = "ProjectDatasets/listing-of-registered-contractors/listing-of-registered-contractors.csv"
 contractorFilePath = os.path.join(currentFileDir,contractorFileRel)
 
 #default tender file info
-tenderFileRel = "ProjectDatasets\\government-procurement\\government-procurement-via-gebiz.csv"
+tenderFileRel = "ProjectDatasets/government-procurement/government-procurement-via-gebiz.csv"
 tenderFilePath = os.path.join(currentFileDir,tenderFileRel)
 
 #============================== Functions ============================#
-def changeScreen(cla, dset=None, ty=None):
+def changeScreen(cla, dataset=None, datatype=None):
     for widget in root.winfo_children():
         widget.destroy()
     
     if cla == "MainPage":
         MainPage(root)
     else:
-        eval("%s(root,dataset=dset,datatype=ty)" %(cla))
+        eval("%s(root,dataset=dataset,datatype=datatype)" %(cla))
         
 def newWindow(cla, data=None):
     topNew = Toplevel()
@@ -257,7 +258,7 @@ class MainPage: #MANY DOORS THAT GO EVERYWHERE
         self.btn_vContractors.configure(pady="0")
         self.btn_vContractors.configure(text='''Func 1: View Contractors''')
         self.btn_vContractors.configure(width=146)
-        self.btn_vContractors.configure(command=lambda:changeScreen("View_Info",dset=contractorDict,ty="contractor"))
+        self.btn_vContractors.configure(command=lambda:changeScreen("View_Info",dataset=contractorDict,datatype="contractor"))
     
     
         #Func 1: View Tenders
@@ -272,7 +273,7 @@ class MainPage: #MANY DOORS THAT GO EVERYWHERE
         self.btn_vTenders.configure(highlightcolor="black")
         self.btn_vTenders.configure(pady="0")
         self.btn_vTenders.configure(text='''Func 1: View Tenders''')
-        self.btn_vTenders.configure(command=lambda:changeScreen("View_Info",dset=tenderDict,ty="tender"))
+        self.btn_vTenders.configure(command=lambda:changeScreen("View_Info",dataset=tenderDict,datatype="tender"))
         
         
         #Func 2: View Agencies
@@ -360,7 +361,7 @@ class MainPage: #MANY DOORS THAT GO EVERYWHERE
         self.btn_Gary.configure(highlightcolor="black")
         self.btn_Gary.configure(pady="0")
         self.btn_Gary.configure(text='''Gary: Search by Area''')
-        self.btn_Gary.configure(command=lambda: changeScreen("Dropdown_Search", ty = "area"))
+        self.btn_Gary.configure(command=lambda: changeScreen("Dropdown_Search", datatype = "area"))
         
         self.btn_ChrisWorkhead = Button(top)
         self.btn_ChrisWorkhead.place(relx=0.332, rely=0.133, height=33, width=146)
@@ -373,7 +374,7 @@ class MainPage: #MANY DOORS THAT GO EVERYWHERE
         self.btn_ChrisWorkhead.configure(highlightcolor="black")
         self.btn_ChrisWorkhead.configure(pady="0")
         self.btn_ChrisWorkhead.configure(text='''Chris: Search by Workhead''')
-        self.btn_ChrisWorkhead.configure(command=lambda: changeScreen("Dropdown_Search", ty = "workhead"))
+        self.btn_ChrisWorkhead.configure(command=lambda: changeScreen("Dropdown_Search", datatype = "workhead"))
         
         self.btn_ChrisExpired = Button(top)
         self.btn_ChrisExpired.place(relx=0.332, rely=0.222, height=33, width=146)
@@ -388,7 +389,33 @@ class MainPage: #MANY DOORS THAT GO EVERYWHERE
         self.btn_ChrisExpired.configure(text='''Chris: Expired Contractors''')
         self.btn_ChrisExpired.configure(command=lambda: changeScreen("View_Expired"))
         
+        self.btn_MinistrySpend = Button(top)
+        self.btn_MinistrySpend.place(relx=0.332, rely=0.311, height=33, width=146)
+        self.btn_MinistrySpend.configure(activebackground="#d9d9d9")
+        self.btn_MinistrySpend.configure(activeforeground="#000000")
+        self.btn_MinistrySpend.configure(background="#d9d9d9")
+        self.btn_MinistrySpend.configure(disabledforeground="#a3a3a3")
+        self.btn_MinistrySpend.configure(foreground="#000000")
+        self.btn_MinistrySpend.configure(highlightbackground="#d9d9d9")
+        self.btn_MinistrySpend.configure(highlightcolor="black")
+        self.btn_MinistrySpend.configure(pady="0")
+        self.btn_MinistrySpend.configure(text='''Shirl: Ministry Spending''')
+        self.btn_MinistrySpend.configure(command=lambda: changeScreen("View_Info",dataset = Shirlene.ministrySpending.values.tolist(), datatype = "shirl"))
         
+        self.btn_CatagorySpend = Button(top)
+        self.btn_CatagorySpend.place(relx=0.332, rely=0.4, height=33, width=146)
+        self.btn_CatagorySpend.configure(activebackground="#d9d9d9")
+        self.btn_CatagorySpend.configure(activeforeground="#000000")
+        self.btn_CatagorySpend.configure(background="#d9d9d9")
+        self.btn_CatagorySpend.configure(disabledforeground="#a3a3a3")
+        self.btn_CatagorySpend.configure(foreground="#000000")
+        self.btn_CatagorySpend.configure(highlightbackground="#d9d9d9")
+        self.btn_CatagorySpend.configure(highlightcolor="black")
+        self.btn_CatagorySpend.configure(pady="0")
+        self.btn_CatagorySpend.configure(text='''Shirl: Category Spending''')
+        self.btn_CatagorySpend.configure(command=lambda: changeScreen("View_Info",dataset = Shirlene.categorySpending.values.tolist(),  datatype = "shirl"))
+        
+
     def createData(self, type):
         evals = {"agencyDict":["View_Info_Agency", "Amin.getAgencyProcurement(tenderDict)"]}
         global dataDict
@@ -396,7 +423,7 @@ class MainPage: #MANY DOORS THAT GO EVERYWHERE
             dataDict[type] = eval(evals[type][1])
         dataset = dataDict[type]
         cla = evals[type][0]
-        changeScreen(cla, dset=dataset)
+        changeScreen(cla, dataset=dataset)
 
         
 class View_Info: #General Purpose Info box. Give a dict & (datatype) sendActive() will send a list of items for detail
@@ -448,21 +475,26 @@ class View_Info: #General Purpose Info box. Give a dict & (datatype) sendActive(
         self.Scrolledlistbox1.configure(selectbackground="#c4c4c4")
         self.Scrolledlistbox1.configure(selectforeground="black")
         self.Scrolledlistbox1.configure(width=10)
-        for key in sorted(dataset.keys()):
-            self.Scrolledlistbox1.insert(END, key)
-
-        self.btn_access = Button(top)
-        self.btn_access.place(relx=0.817, rely=0.889, height=33, width=83)
-        self.btn_access.configure(activebackground="#d9d9d9")
-        self.btn_access.configure(activeforeground="#000000")
-        self.btn_access.configure(background="#d9d9d9")
-        self.btn_access.configure(disabledforeground="#a3a3a3")
-        self.btn_access.configure(foreground="#000000")
-        self.btn_access.configure(highlightbackground="#d9d9d9")
-        self.btn_access.configure(highlightcolor="black")
-        self.btn_access.configure(pady="0")
-        self.btn_access.configure(text='''Access''')
-        self.btn_access.configure(command = lambda: self.sendActive())
+        if datatype != "shirl":
+            for key in sorted(dataset.keys()):
+                self.Scrolledlistbox1.insert(END, key)
+        else:
+            for row in dataset:
+                self.Scrolledlistbox1.insert(END, "%-49.49s : $%s"%(row[0],row[1]))
+    
+        if datatype != "shirl":
+            self.btn_access = Button(top)
+            self.btn_access.place(relx=0.817, rely=0.889, height=33, width=83)
+            self.btn_access.configure(activebackground="#d9d9d9")
+            self.btn_access.configure(activeforeground="#000000")
+            self.btn_access.configure(background="#d9d9d9")
+            self.btn_access.configure(disabledforeground="#a3a3a3")
+            self.btn_access.configure(foreground="#000000")
+            self.btn_access.configure(highlightbackground="#d9d9d9")
+            self.btn_access.configure(highlightcolor="black")
+            self.btn_access.configure(pady="0")
+            self.btn_access.configure(text='''Access''')
+            self.btn_access.configure(command = lambda: self.sendActive())
         
     def sendActive(self):
         dataObj = self.dataset[self.Scrolledlistbox1.get(ACTIVE)]
