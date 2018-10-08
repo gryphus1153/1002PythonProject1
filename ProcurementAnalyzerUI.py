@@ -8,9 +8,6 @@
 import sys
 import os
 import pandas as pd
-#import ProjOpenFunction
-#import PythonProject
-#import ProjFunction3
 
 try:
     from Tkinter import *
@@ -46,6 +43,7 @@ from GaryProjFunction3 import Gary
 from GaryProjOpenFunction import GaryOpen
 import chrisProject as Chris
 import CategorisedSpending as Shirlene
+import function_weiji as Weiji
 
 contractorDict = {}
 tenderDict = {}
@@ -332,17 +330,31 @@ class MainPage: #MANY DOORS THAT GO EVERYWHERE
         self.btn_F5.configure(text='''Function 5''')
 
         #Func 6
-        self.btn_F6 = Button(top)
-        self.btn_F6.place(relx=0.05, rely=0.578, height=33, width=146)
-        self.btn_F6.configure(activebackground="#d9d9d9")
-        self.btn_F6.configure(activeforeground="#000000")
-        self.btn_F6.configure(background="#d9d9d9")
-        self.btn_F6.configure(disabledforeground="#a3a3a3")
-        self.btn_F6.configure(foreground="#000000")
-        self.btn_F6.configure(highlightbackground="#d9d9d9")
-        self.btn_F6.configure(highlightcolor="black")
-        self.btn_F6.configure(pady="0")
-        self.btn_F6.configure(text='''Function 6''')
+        self.btn_MinistrySpend = Button(top)
+        self.btn_MinistrySpend.place(relx=0.05, rely=0.578, height=33, width=146)
+        self.btn_MinistrySpend.configure(activebackground="#d9d9d9")
+        self.btn_MinistrySpend.configure(activeforeground="#000000")
+        self.btn_MinistrySpend.configure(background="#d9d9d9")
+        self.btn_MinistrySpend.configure(disabledforeground="#a3a3a3")
+        self.btn_MinistrySpend.configure(foreground="#000000")
+        self.btn_MinistrySpend.configure(highlightbackground="#d9d9d9")
+        self.btn_MinistrySpend.configure(highlightcolor="black")
+        self.btn_MinistrySpend.configure(pady="0")
+        self.btn_MinistrySpend.configure(text='''Func 6: Ministry Spending''')
+        self.btn_MinistrySpend.configure(command=lambda: changeScreen("View_Info",dataset = Shirlene.ministrySpending.values.tolist(), datatype = "shirl"))
+        
+        self.btn_CatagorySpend = Button(top)
+        self.btn_CatagorySpend.place(relx=0.05, rely=0.667, height=33, width=146)
+        self.btn_CatagorySpend.configure(activebackground="#d9d9d9")
+        self.btn_CatagorySpend.configure(activeforeground="#000000")
+        self.btn_CatagorySpend.configure(background="#d9d9d9")
+        self.btn_CatagorySpend.configure(disabledforeground="#a3a3a3")
+        self.btn_CatagorySpend.configure(foreground="#000000")
+        self.btn_CatagorySpend.configure(highlightbackground="#d9d9d9")
+        self.btn_CatagorySpend.configure(highlightcolor="black")
+        self.btn_CatagorySpend.configure(pady="0")
+        self.btn_CatagorySpend.configure(text='''Func 6: Category Spending''')
+        self.btn_CatagorySpend.configure(command=lambda: changeScreen("View_Info",dataset = Shirlene.categorySpending.values.tolist(),  datatype = "shirl"))
         
         #SEPERATOR
         self.TSeparator1 = ttk.Separator(top)
@@ -389,31 +401,70 @@ class MainPage: #MANY DOORS THAT GO EVERYWHERE
         self.btn_ChrisExpired.configure(text='''Chris: Expired Contractors''')
         self.btn_ChrisExpired.configure(command=lambda: changeScreen("View_Expired"))
         
-        self.btn_MinistrySpend = Button(top)
-        self.btn_MinistrySpend.place(relx=0.332, rely=0.311, height=33, width=146)
-        self.btn_MinistrySpend.configure(activebackground="#d9d9d9")
-        self.btn_MinistrySpend.configure(activeforeground="#000000")
-        self.btn_MinistrySpend.configure(background="#d9d9d9")
-        self.btn_MinistrySpend.configure(disabledforeground="#a3a3a3")
-        self.btn_MinistrySpend.configure(foreground="#000000")
-        self.btn_MinistrySpend.configure(highlightbackground="#d9d9d9")
-        self.btn_MinistrySpend.configure(highlightcolor="black")
-        self.btn_MinistrySpend.configure(pady="0")
-        self.btn_MinistrySpend.configure(text='''Shirl: Ministry Spending''')
-        self.btn_MinistrySpend.configure(command=lambda: changeScreen("View_Info",dataset = Shirlene.ministrySpending.values.tolist(), datatype = "shirl"))
+        self.btn_overtendered = Button(top)
+        self.btn_overtendered.place(relx=0.332, rely=0.311, height=33, width=146)
+        self.btn_overtendered.configure(activebackground="#d9d9d9")
+        self.btn_overtendered.configure(activeforeground="#000000")
+        self.btn_overtendered.configure(background="#d9d9d9")
+        self.btn_overtendered.configure(disabledforeground="#a3a3a3")
+        self.btn_overtendered.configure(foreground="#000000")
+        self.btn_overtendered.configure(highlightbackground="#d9d9d9")
+        self.btn_overtendered.configure(highlightcolor="black")
+        self.btn_overtendered.configure(pady="0")
+        self.btn_overtendered.configure(text='''Amin: Over Tender Limit''')
+        self.btn_overtendered.configure(command=lambda: changeScreen("View_Info",dataset = Amin.overtendered(tenderDict, contractorDict), datatype = "amin"))
         
-        self.btn_CatagorySpend = Button(top)
-        self.btn_CatagorySpend.place(relx=0.332, rely=0.4, height=33, width=146)
-        self.btn_CatagorySpend.configure(activebackground="#d9d9d9")
-        self.btn_CatagorySpend.configure(activeforeground="#000000")
-        self.btn_CatagorySpend.configure(background="#d9d9d9")
-        self.btn_CatagorySpend.configure(disabledforeground="#a3a3a3")
-        self.btn_CatagorySpend.configure(foreground="#000000")
-        self.btn_CatagorySpend.configure(highlightbackground="#d9d9d9")
-        self.btn_CatagorySpend.configure(highlightcolor="black")
-        self.btn_CatagorySpend.configure(pady="0")
-        self.btn_CatagorySpend.configure(text='''Shirl: Category Spending''')
-        self.btn_CatagorySpend.configure(command=lambda: changeScreen("View_Info",dataset = Shirlene.categorySpending.values.tolist(),  datatype = "shirl"))
+        self.btn_latestContractor = Button(top)
+        self.btn_latestContractor.place(relx=0.332, rely=0.4, height=33, width=146)
+        self.btn_latestContractor.configure(activebackground="#d9d9d9")
+        self.btn_latestContractor.configure(activeforeground="#000000")
+        self.btn_latestContractor.configure(background="#d9d9d9")
+        self.btn_latestContractor.configure(disabledforeground="#a3a3a3")
+        self.btn_latestContractor.configure(foreground="#000000")
+        self.btn_latestContractor.configure(highlightbackground="#d9d9d9")
+        self.btn_latestContractor.configure(highlightcolor="black")
+        self.btn_latestContractor.configure(pady="0")
+        self.btn_latestContractor.configure(text='''Amin: Validate Contractor''')
+        self.btn_latestContractor.configure(command=lambda: changeScreen("Dropdown_Search", datatype = "amin"))
+        
+        self.btn_minmax = Button(top)
+        self.btn_minmax.place(relx=0.332, rely=0.489, height=33, width=146)
+        self.btn_minmax.configure(activebackground="#d9d9d9")
+        self.btn_minmax.configure(activeforeground="#000000")
+        self.btn_minmax.configure(background="#d9d9d9")
+        self.btn_minmax.configure(disabledforeground="#a3a3a3")
+        self.btn_minmax.configure(foreground="#000000")
+        self.btn_minmax.configure(highlightbackground="#d9d9d9")
+        self.btn_minmax.configure(highlightcolor="black")
+        self.btn_minmax.configure(pady="0")
+        self.btn_minmax.configure(text='''WeiJi: Min/Max''')
+        self.btn_minmax.configure(command=lambda: changeScreen("View_Info", dataset = Weiji.bidamount(tenderDict), datatype = "weiji"))
+        
+        self.btn_contractordesc = Button(top)
+        self.btn_contractordesc.place(relx=0.332, rely=0.578, height=33, width=146)
+        self.btn_contractordesc.configure(activebackground="#d9d9d9")
+        self.btn_contractordesc.configure(activeforeground="#000000")
+        self.btn_contractordesc.configure(background="#d9d9d9")
+        self.btn_contractordesc.configure(disabledforeground="#a3a3a3")
+        self.btn_contractordesc.configure(foreground="#000000")
+        self.btn_contractordesc.configure(highlightbackground="#d9d9d9")
+        self.btn_contractordesc.configure(highlightcolor="black")
+        self.btn_contractordesc.configure(pady="0")
+        self.btn_contractordesc.configure(text='''Weiji:Contractor Description''')
+        self.btn_contractordesc.configure(command=lambda: changeScreen("View_Info", dataset = Weiji.contractordesc(contractorFilePath), datatype = "weiji2"))
+        
+        self.btn_agencyFreq = Button(top)
+        self.btn_agencyFreq.place(relx=0.332, rely=0.667, height=33, width=146)
+        self.btn_agencyFreq.configure(activebackground="#d9d9d9")
+        self.btn_agencyFreq.configure(activeforeground="#000000")
+        self.btn_agencyFreq.configure(background="#d9d9d9")
+        self.btn_agencyFreq.configure(disabledforeground="#a3a3a3")
+        self.btn_agencyFreq.configure(foreground="#000000")
+        self.btn_agencyFreq.configure(highlightbackground="#d9d9d9")
+        self.btn_agencyFreq.configure(highlightcolor="black")
+        self.btn_agencyFreq.configure(pady="0")
+        self.btn_agencyFreq.configure(text='''Weiji:Contractor Frequency''')
+        self.btn_agencyFreq.configure(command=lambda: changeScreen("View_Info_Agency",dataset = Weiji.agencyFreq(Amin.getAgencyProcurement(tenderDict), tenderDict), datatype = "weiji"))
         
 
     def createData(self, type):
@@ -442,13 +493,18 @@ class View_Info: #General Purpose Info box. Give a dict & (datatype) sendActive(
         self.style.configure('.',foreground=_fgcolor)
         self.style.map('.',background=
             [('selected', _compcolor), ('active',_ana2color)])
-
-        top.geometry("600x450")
-        top.title("View Info")
-        top.configure(background="#d9d9d9")
+            
         self.dataset = dataset
         self.datatype = datatype
 
+        
+        if self.datatype == "amin":
+            top.geometry("800x600")
+        else:
+            top.geometry("600x450")
+        top.title("View Info")
+        top.configure(background="#d9d9d9")
+        
         self.btn_back = Button(top)
         self.btn_back.place(relx=0.033, rely=0.889, height=33, width=83)
         self.btn_back.configure(activebackground="#d9d9d9")
@@ -467,7 +523,7 @@ class View_Info: #General Purpose Info box. Give a dict & (datatype) sendActive(
         self.Scrolledlistbox1.place(relx=0.033, rely=0.044, relheight=0.816
                 , relwidth=0.925)
         self.Scrolledlistbox1.configure(background="white")
-        self.Scrolledlistbox1.configure(disabledforeground="#a3a3a3")
+        self.Scrolledlistbox1.configure(disabledforeground="black")
         self.Scrolledlistbox1.configure(font="TkFixedFont")
         self.Scrolledlistbox1.configure(foreground="black")
         self.Scrolledlistbox1.configure(highlightbackground="#d9d9d9")
@@ -475,14 +531,36 @@ class View_Info: #General Purpose Info box. Give a dict & (datatype) sendActive(
         self.Scrolledlistbox1.configure(selectbackground="#c4c4c4")
         self.Scrolledlistbox1.configure(selectforeground="black")
         self.Scrolledlistbox1.configure(width=10)
-        if datatype != "shirl":
+        self.Scrolledlistbox1.activate(1)
+        
+        if self.datatype == "shirl":
+            self.Scrolledlistbox1.insert(END, "%-49.49s : %s"%("Category","Spending"))
+            for row in self.dataset:
+                self.Scrolledlistbox1.insert(END, "%-49.49s : $%s"%(row[0],row[1]))
+            self.Scrolledlistbox1.configure(state = "disabled")
+             
+        elif self.datatype == "amin":
+            self.Scrolledlistbox1.insert(END, "%-17s : %-38.38s : %-13s: %-9s" %("Tender No.", "Contractor Name", "Tendered Amount", "Limit"))
+            for key in self.dataset:
+                self.Scrolledlistbox1.insert(END, "%-17s : %-38.38s : $%-13s : $%-9s" %(key, self.dataset[key][0], self.dataset[key][1], self.dataset[key][2]))
+                
+        elif self.datatype == "weiji":
+            self.Scrolledlistbox1.insert(END, "%-17s : %-13s : %-9s" %("Tender no.", "Maximum", "Minimum"))
+            for key in self.dataset:
+                self.Scrolledlistbox1.insert(END, "%-17s : $%-12s : $%-9s" %(key, self.dataset[key][0], self.dataset[key][1]))
+                
+        elif self.datatype == "weiji2":
+            for row in self.dataset:
+                    self.Scrolledlistbox1.insert(END, "%-40.40s : %s"%(row[0],row[2]))
+            self.Scrolledlistbox1.configure(state = "disabled")
+        else:
             for key in sorted(dataset.keys()):
                 self.Scrolledlistbox1.insert(END, key)
-        else:
-            for row in dataset:
-                self.Scrolledlistbox1.insert(END, "%-49.49s : $%s"%(row[0],row[1]))
+            self.Scrolledlistbox1.activate(0)
+                
+                
     
-        if datatype != "shirl":
+        if self.datatype != "shirl" or self.datatype != "weiji2":
             self.btn_access = Button(top)
             self.btn_access.place(relx=0.817, rely=0.889, height=33, width=83)
             self.btn_access.configure(activebackground="#d9d9d9")
@@ -497,17 +575,39 @@ class View_Info: #General Purpose Info box. Give a dict & (datatype) sendActive(
             self.btn_access.configure(command = lambda: self.sendActive())
         
     def sendActive(self):
-        dataObj = self.dataset[self.Scrolledlistbox1.get(ACTIVE)]
-        if self.datatype=="contractor":
-            data = [dataObj.company_name, dataObj.uen_no, dataObj.address.toAddress(), dataObj.tel_no, dataObj.expiry_date, dataObj.workheadGrade]
-            cla = "View_Contractor"
-
-        elif self.datatype=="tender":
+        if self.datatype == "amin":
+            key = self.Scrolledlistbox1.get(ACTIVE)[:17]
+            dataObj = tenderDict[key]
+            
             data = [dataObj.tender_no, dataObj.agency, dataObj.award_date, dataObj.tender_detail_status, dataObj.supplierAwarded, dataObj.tender_description]
             cla = "View_Tender"
+            newWindow(cla,data)
+            
+            
+            dataObj = contractorDict[self.dataset[key][0]]
+            data = [dataObj.company_name, dataObj.uen_no, dataObj.address.toAddress(), dataObj.tel_no, dataObj.expiry_date, dataObj.workheadGrade]
+            cla = "View_Contractor"
+            newWindow(cla,data)
+            
+        elif self.datatype == "weiji":
+            key = self.Scrolledlistbox1.get(ACTIVE)[:17]
+            dataObj = tenderDict[key]
+            data = [dataObj.tender_no, dataObj.agency, dataObj.award_date, dataObj.tender_detail_status, dataObj.supplierAwarded, dataObj.tender_description]
+            cla = "View_Tender"
+            newWindow(cla,data)
+            
+        else:
+            dataObj = self.dataset[self.Scrolledlistbox1.get(ACTIVE)]
+            if self.datatype=="contractor":
+                data = [dataObj.company_name, dataObj.uen_no, dataObj.address.toAddress(), dataObj.tel_no, dataObj.expiry_date, dataObj.workheadGrade]
+                cla = "View_Contractor"
+    
+            elif self.datatype=="tender":
+                data = [dataObj.tender_no, dataObj.agency, dataObj.award_date, dataObj.tender_detail_status, dataObj.supplierAwarded, dataObj.tender_description]
+                cla = "View_Tender"
         
-        print data
-        newWindow(cla,data)
+            print data
+            newWindow(cla,data)
         
 
 class View_Info_Agency: #Func 2:View Agency procurement info
@@ -570,11 +670,13 @@ class View_Info_Agency: #Func 2:View Agency procurement info
         self.lbl_agency.configure(text='''Agency:''')
 
         self.lbl_Tender = Label(top)
-        self.lbl_Tender.place(relx=0.633, rely=0.044, height=26, width=55)
+        self.lbl_Tender.place(relx=0.633, rely=0.044, height=26, width=100)
         self.lbl_Tender.configure(background="#d9d9d9")
         self.lbl_Tender.configure(disabledforeground="#a3a3a3")
         self.lbl_Tender.configure(foreground="#000000")
         self.lbl_Tender.configure(text='''Tender:''')
+        if self.datatype == "weiji":
+            self.lbl_Tender.configure(text='''Count : Company''')
 
         self.btn_viewT = Button(top)
         self.btn_viewT.place(relx=0.45, rely=0.889, height=33, width=100)
@@ -587,6 +689,8 @@ class View_Info_Agency: #Func 2:View Agency procurement info
         self.btn_viewT.configure(highlightcolor="black")
         self.btn_viewT.configure(pady="0")
         self.btn_viewT.configure(text='''View Tenders''')
+        if self.datatype == "weiji":
+            self.btn_viewT.configure(text='''View Companies''')
         self.btn_viewT.configure(command=lambda:self.viewTenders())
         
 
@@ -602,29 +706,34 @@ class View_Info_Agency: #Func 2:View Agency procurement info
         self.btn_back.configure(pady="0")
         self.btn_back.configure(text='''Back''')
         self.btn_back.configure(command = lambda: changeScreen("MainPage"))
-
-        self.btn_access = Button(top)
-        self.btn_access.place(relx=0.867, rely=0.889, height=33, width=56)
-        self.btn_access.configure(activebackground="#d9d9d9")
-        self.btn_access.configure(activeforeground="#000000")
-        self.btn_access.configure(background="#d9d9d9")
-        self.btn_access.configure(disabledforeground="#a3a3a3")
-        self.btn_access.configure(foreground="#000000")
-        self.btn_access.configure(highlightbackground="#d9d9d9")
-        self.btn_access.configure(highlightcolor="black")
-        self.btn_access.configure(pady="0")
-        self.btn_access.configure(text='''Access''')
-        self.btn_access.configure(command=lambda:self.sendActive())
+        
+        if datatype != "amin":
+            self.btn_access = Button(top)
+            self.btn_access.place(relx=0.867, rely=0.889, height=33, width=56)
+            self.btn_access.configure(activebackground="#d9d9d9")
+            self.btn_access.configure(activeforeground="#000000")
+            self.btn_access.configure(background="#d9d9d9")
+            self.btn_access.configure(disabledforeground="#a3a3a3")
+            self.btn_access.configure(foreground="#000000")
+            self.btn_access.configure(highlightbackground="#d9d9d9")
+            self.btn_access.configure(highlightcolor="black")
+            self.btn_access.configure(pady="0")
+            self.btn_access.configure(text='''Access''')
+            self.btn_access.configure(command=lambda:self.sendActive())
         
     def viewTenders(self):
         self.ScrolledlistboxTenders.delete(0,END)
-        for tender in sorted(self.dataset[self.ScrolledlistboxAgency.get(ACTIVE)]):
-            self.ScrolledlistboxTenders.insert(END, tender)
+        active = self.ScrolledlistboxAgency.get(ACTIVE)
+        if self.datatype == "weiji":
+            for tender in sorted(self.dataset[active]):
+                self.ScrolledlistboxTenders.insert(END, str(self.dataset[active][tender]) + " : " + tender)
+        else:
+            for tender in sorted(self.dataset[active]):
+                self.ScrolledlistboxTenders.insert(END, tender)
 
     def sendActive(self):
         try:
             dataObj = tenderDict[self.ScrolledlistboxTenders.get(ACTIVE)]
-        
             data = [dataObj.tender_no, dataObj.agency, dataObj.award_date, dataObj.tender_detail_status, dataObj.supplierAwarded, dataObj.tender_description]
             cla = "View_Tender"
             
@@ -684,8 +793,9 @@ class View_Total: #Func 3:View total amount of procurement
         self.Scrolledlistbox1.configure(width=10)
         self.sortState = "asc"
         dataset = Gary(tenderPandas).sortfunc(self.sortState)
+        self.Scrolledlistbox1.insert(END, "%-58.58s : %s" %("Agency","Total"))
         for key in dataset.keys():
-            self.Scrolledlistbox1.insert(END, "%-59.59s : %s" %(key,str(dataset[key])))
+            self.Scrolledlistbox1.insert(END, "%-58.58s : %s" %(key,str(dataset[key])))
         self.Scrolledlistbox1.configure(state="disabled")
 
         self.btn_access = Button(top)
@@ -710,7 +820,7 @@ class View_Total: #Func 3:View total amount of procurement
             self.btn_access.configure(text='''Ascending''')
         
         self.Scrolledlistbox1.configure(state="normal")
-        self.Scrolledlistbox1.delete(0,END)
+        self.Scrolledlistbox1.delete(1,END)
         dataset = Gary(tenderPandas).sortfunc(self.sortState)
         for key in dataset.keys():
             self.Scrolledlistbox1.insert(END, "%-59.59s : %s" %(key,str(dataset[key])))
@@ -768,19 +878,20 @@ class Dropdown_Search:
         self.Scrolledlistbox1.configure(selectbackground="#c4c4c4")
         self.Scrolledlistbox1.configure(selectforeground="black")
         self.Scrolledlistbox1.configure(width=10)
-
-        self.btn_access = Button(top)
-        self.btn_access.place(relx=0.817, rely=0.889, height=33, width=83)
-        self.btn_access.configure(activebackground="#d9d9d9")
-        self.btn_access.configure(activeforeground="#000000")
-        self.btn_access.configure(background="#d9d9d9")
-        self.btn_access.configure(disabledforeground="#a3a3a3")
-        self.btn_access.configure(foreground="#000000")
-        self.btn_access.configure(highlightbackground="#d9d9d9")
-        self.btn_access.configure(highlightcolor="black")
-        self.btn_access.configure(pady="0")
-        self.btn_access.configure(text='''Access''')
-        self.btn_access.configure(command = lambda: self.sendActive())
+        
+        if self.datatype != "amin":
+            self.btn_access = Button(top)
+            self.btn_access.place(relx=0.817, rely=0.889, height=33, width=83)
+            self.btn_access.configure(activebackground="#d9d9d9")
+            self.btn_access.configure(activeforeground="#000000")
+            self.btn_access.configure(background="#d9d9d9")
+            self.btn_access.configure(disabledforeground="#a3a3a3")
+            self.btn_access.configure(foreground="#000000")
+            self.btn_access.configure(highlightbackground="#d9d9d9")
+            self.btn_access.configure(highlightcolor="black")
+            self.btn_access.configure(pady="0")
+            self.btn_access.configure(text='''Access''')
+            self.btn_access.configure(command = lambda: self.sendActive())
         
 
         self.TCombobox1 = ttk.Combobox(top)
@@ -798,6 +909,10 @@ class Dropdown_Search:
         elif datatype == "workhead":
             self.TCombobox1.set("A1")
             fill = ["A1", "A2", "B1", "B2", "C1", "C2", "C3", "SingleGrade", "L6", "L5", "L4", "L3", "L2", "L1"]
+            
+        elif datatype =="amin":
+            self.TCombobox1.set("1 BUILDER & RECYCLE PTE. LTD.")
+            fill = contractorDict.keys()
         
         self.TCombobox1.configure(values = sorted(fill))
         
@@ -835,6 +950,18 @@ class Dropdown_Search:
             self.Scrolledlistbox1.delete(0,END)
             for contractor in dataDict["chris"].workheadGrade(selection):
                 self.Scrolledlistbox1.insert(END, contractor[0])
+                
+        elif self.datatype == "amin":
+            original = contractorDict[selection]
+            uen = original.uen_no
+            new = Amin.getLatest(uen)
+            if isinstance(new, str):
+                self.Scrolledlistbox1.insert(END,new)
+            else:
+                data = [[original.company_name, original.uen_no, original.address.toAddress(), original.tel_no, original.expiry_date, original.workheadGrade],
+                        [new.company_name, new.uen_no, new.address, new.tel_no, new.expiry_date, new.workheadGrade]]
+                print data
+                newWindow("View_ContractorSpec", data)
                     
     def sendActive(self):
         dataObj = contractorDict[self.Scrolledlistbox1.get(ACTIVE)]
@@ -863,7 +990,7 @@ class View_Expired: #Chris :View Expired Contractors
             [('selected', _compcolor), ('active',_ana2color)])
 
         top.geometry("600x450")
-        top.title("View Total Procurement")
+        top.title("View Expired")
         top.configure(background="#d9d9d9")
         
 
@@ -1129,7 +1256,225 @@ class View_Contractor: #Shows Contractor Details
         self.txt_workheads.configure(width=434)
         self.txt_workheads.configure(wrap=WORD)
         for workhead in dataset[5]:
-            self.txt_workheads.insert(END, workhead + " : " + dataset[5][workhead] + "\n")
+            limit = Amin.gradeDict[dataset[5][workhead]]
+            if limit == 2147483647:
+                limit = "Unlimited"
+            else:
+                limit = ("$" + str(limit))
+            
+            self.txt_workheads.insert(END, workhead + " : " + dataset[5][workhead] + " : " + str(limit) +"\n")
+        self.txt_workheads.configure(state="disabled")
+        
+        
+        #Close Button
+        self.btn_close = Button(top)
+        self.btn_close.place(relx=0.05, rely=0.8, height=33, width=78)
+        self.btn_close.configure(activebackground="#d9d9d9")
+        self.btn_close.configure(activeforeground="#000000")
+        self.btn_close.configure(background="#d9d9d9")
+        self.btn_close.configure(disabledforeground="#a3a3a3")
+        self.btn_close.configure(foreground="#000000")
+        self.btn_close.configure(highlightbackground="#d9d9d9")
+        self.btn_close.configure(highlightcolor="black")
+        self.btn_close.configure(pady="0")
+        self.btn_close.configure(text='''Close''')
+        self.btn_close.configure(command = lambda: destroyWindow(top))
+
+        
+class View_ContractorSpec: #Shows Contractor Details
+    def __init__(self, top=None, dataset=None):
+        '''This class configures and populates the toplevel window.
+           top is the toplevel containing window.'''
+        _bgcolor = '#d9d9d9'  # X11 color: 'gray85'
+        _fgcolor = '#000000'  # X11 color: 'black'
+        _compcolor = '#d9d9d9' # X11 color: 'gray85'
+        _ana1color = '#d9d9d9' # X11 color: 'gray85' 
+        _ana2color = '#d9d9d9' # X11 color: 'gray85' 
+
+        top.geometry("600x450")
+        top.title("View Contractor")
+        top.configure(background="#d9d9d9")
+        top.configure(highlightbackground="#d9d9d9")
+        top.configure(highlightcolor="black")
+
+
+        #Company Name
+        self.lbl_name = Label(top)
+        self.lbl_name.place(relx=0.033, rely=0.044, height=26, width=116)
+        self.lbl_name.configure(activebackground="#f9f9f9")
+        self.lbl_name.configure(activeforeground="black")
+        self.lbl_name.configure(background="#d9d9d9")
+        self.lbl_name.configure(disabledforeground="#a3a3a3")
+        self.lbl_name.configure(foreground="#000000")
+        self.lbl_name.configure(highlightbackground="#d9d9d9")
+        self.lbl_name.configure(highlightcolor="black")
+        self.lbl_name.configure(text='''Company Name:''')
+
+        self.txt_cName = Text(top)
+        self.txt_cName.place(relx=0.233, rely=0.044, relheight=0.053
+                , relwidth=0.723)
+        self.txt_cName.configure(background="white")
+        self.txt_cName.configure(font="TkTextFont")
+        self.txt_cName.configure(foreground="black")
+        self.txt_cName.configure(highlightbackground="#d9d9d9")
+        self.txt_cName.configure(highlightcolor="black")
+        self.txt_cName.configure(insertbackground="black")
+        self.txt_cName.configure(selectbackground="#c4c4c4")
+        self.txt_cName.configure(selectforeground="black")
+        self.txt_cName.configure(width=434)
+        self.txt_cName.configure(wrap=WORD)
+        self.txt_cName.insert(END, dataset[1][0])
+        if dataset[0][0] != dataset[1][0]:
+            self.txt_cName.configure(foreground="red")
+        self.txt_cName.configure(state="disabled")
+
+        
+        #UEN no.
+        self.lbl_uen = Label(top)
+        self.lbl_uen.place(relx=0.117, rely=0.111, height=26, width=66)
+        self.lbl_uen.configure(activebackground="#f9f9f9")
+        self.lbl_uen.configure(activeforeground="black")
+        self.lbl_uen.configure(background="#d9d9d9")
+        self.lbl_uen.configure(disabledforeground="#a3a3a3")
+        self.lbl_uen.configure(foreground="#000000")
+        self.lbl_uen.configure(highlightbackground="#d9d9d9")
+        self.lbl_uen.configure(highlightcolor="black")
+        self.lbl_uen.configure(text='''UEN no.:''')
+        
+        self.txt_uen = Text(top)
+        self.txt_uen.place(relx=0.233, rely=0.111, relheight=0.053
+                , relwidth=0.723)
+        self.txt_uen.configure(background="white")
+        self.txt_uen.configure(font="TkTextFont")
+        self.txt_uen.configure(foreground="black")
+        self.txt_uen.configure(highlightbackground="#d9d9d9")
+        self.txt_uen.configure(highlightcolor="black")
+        self.txt_uen.configure(insertbackground="black")
+        self.txt_uen.configure(selectbackground="#c4c4c4")
+        self.txt_uen.configure(selectforeground="black")
+        self.txt_uen.configure(width=434)
+        self.txt_uen.configure(wrap=WORD)
+        self.txt_uen.insert(END, dataset[1][1])
+        if dataset[0][0] != dataset[1][0]:
+            self.txt_uen.configure(foreground="red")
+        self.txt_uen.configure(state="disabled")
+        
+        
+        #Address
+        self.lbl_address = Label(top)
+        self.lbl_address.place(relx=0.117, rely=0.178, height=26, width=66)
+        self.lbl_address.configure(activebackground="#f9f9f9")
+        self.lbl_address.configure(activeforeground="black")
+        self.lbl_address.configure(background="#d9d9d9")
+        self.lbl_address.configure(disabledforeground="#a3a3a3")
+        self.lbl_address.configure(foreground="#000000")
+        self.lbl_address.configure(highlightbackground="#d9d9d9")
+        self.lbl_address.configure(highlightcolor="black")
+        self.lbl_address.configure(text='''Address:''')
+        
+        self.txt_address = Text(top)
+        self.txt_address.place(relx=0.233, rely=0.178, relheight=0.098
+                , relwidth=0.723)
+        self.txt_address.configure(background="white")
+        self.txt_address.configure(font="TkTextFont")
+        self.txt_address.configure(foreground="black")
+        self.txt_address.configure(highlightbackground="#d9d9d9")
+        self.txt_address.configure(highlightcolor="black")
+        self.txt_address.configure(insertbackground="black")
+        self.txt_address.configure(selectbackground="#c4c4c4")
+        self.txt_address.configure(selectforeground="black")
+        self.txt_address.configure(width=434)
+        self.txt_address.configure(wrap=WORD)
+        self.txt_address.insert(END, dataset[1][2])
+        if dataset[0][2].replace(" ", "") != dataset[1][2].replace(" ", ""):
+            self.txt_address.configure(foreground="red")
+        self.txt_address.configure(state="disabled")
+        
+        
+        #telephone number
+        self.lbl_tel = Label(top)
+        self.lbl_tel.place(relx=0.133, rely=0.289, height=26, width=53)
+        self.lbl_tel.configure(background="#d9d9d9")
+        self.lbl_tel.configure(disabledforeground="#a3a3a3")
+        self.lbl_tel.configure(foreground="#000000")
+        self.lbl_tel.configure(text='''Tel no.:''')
+        
+        self.txt_tel = Text(top)
+        self.txt_tel.place(relx=0.233, rely=0.289, relheight=0.053
+                , relwidth=0.723)
+        self.txt_tel.configure(background="white")
+        self.txt_tel.configure(font="TkTextFont")
+        self.txt_tel.configure(foreground="black")
+        self.txt_tel.configure(highlightbackground="#d9d9d9")
+        self.txt_tel.configure(highlightcolor="black")
+        self.txt_tel.configure(insertbackground="black")
+        self.txt_tel.configure(selectbackground="#c4c4c4")
+        self.txt_tel.configure(selectforeground="black")
+        self.txt_tel.configure(width=434)
+        self.txt_tel.configure(wrap=WORD)
+        self.txt_tel.insert(END, dataset[1][3])
+        if dataset[0][3] != dataset[1][3]:
+            self.txt_tel.configure(foreground="red")
+        self.txt_tel.configure(state="disabled")
+        
+        
+        #expiry
+        self.lbl_expiry = Label(top)
+        self.lbl_expiry.place(relx=0.133, rely=0.356, height=26, width=49)
+        self.lbl_expiry.configure(background="#d9d9d9")
+        self.lbl_expiry.configure(disabledforeground="#a3a3a3")
+        self.lbl_expiry.configure(foreground="#000000")
+        self.lbl_expiry.configure(text='''Expiry:''')
+
+        self.txt_expiry = Text(top)
+        self.txt_expiry.place(relx=0.233, rely=0.356, relheight=0.053
+                , relwidth=0.723)
+        self.txt_expiry.configure(background="white")
+        self.txt_expiry.configure(font="TkTextFont")
+        self.txt_expiry.configure(foreground="black")
+        self.txt_expiry.configure(highlightbackground="#d9d9d9")
+        self.txt_expiry.configure(highlightcolor="black")
+        self.txt_expiry.configure(insertbackground="black")
+        self.txt_expiry.configure(selectbackground="#c4c4c4")
+        self.txt_expiry.configure(selectforeground="black")
+        self.txt_expiry.configure(width=434)
+        self.txt_expiry.configure(wrap=WORD)
+        self.txt_expiry.insert(END, dataset[1][4])
+        if dataset[0][4].replace("0", "") != dataset[1][4].replace("0", ""):
+            self.txt_expiry.configure(foreground="red")
+        self.txt_expiry.configure(state="disabled")
+    
+        
+        #workheads
+        self.lbl_workheads = Label(top)
+        self.lbl_workheads.place(relx=0.083, rely=0.422, height=26, width=83)
+        self.lbl_workheads.configure(activebackground="#f9f9f9")
+        self.lbl_workheads.configure(activeforeground="black")
+        self.lbl_workheads.configure(background="#d9d9d9")
+        self.lbl_workheads.configure(disabledforeground="#a3a3a3")
+        self.lbl_workheads.configure(foreground="#000000")
+        self.lbl_workheads.configure(highlightbackground="#d9d9d9")
+        self.lbl_workheads.configure(highlightcolor="black")
+        self.lbl_workheads.configure(text='''Workheads:''')
+
+        self.txt_workheads = Text(top)
+        self.txt_workheads.place(relx=0.233, rely=0.422, relheight=0.52
+                , relwidth=0.723)
+        self.txt_workheads.configure(background="white")
+        self.txt_workheads.configure(font="TkTextFont")
+        self.txt_workheads.configure(foreground="black")
+        self.txt_workheads.configure(highlightbackground="#d9d9d9")
+        self.txt_workheads.configure(highlightcolor="black")
+        self.txt_workheads.configure(insertbackground="black")
+        self.txt_workheads.configure(selectbackground="#c4c4c4")
+        self.txt_workheads.configure(selectforeground="black")
+        self.txt_workheads.configure(width=434)
+        self.txt_workheads.configure(wrap=WORD)
+        for workhead in dataset[1][5]:
+            limit = Amin.gradeDict[dataset[1][5][workhead]]
+            self.txt_workheads.insert(END, workhead + " : " + dataset[1][5][workhead] + " : $" + str(limit) +"\n")
+        if dataset[0][5] != dataset[1][5]:
+            self.txt_workheads.configure(foreground="red")
         self.txt_workheads.configure(state="disabled")
         
         
@@ -1373,7 +1718,7 @@ class View_Tender: #Shows the Tender Details
         self.txt_desc.configure(state="disabled")
 
         self.btn_close = Button(top)
-        self.btn_close.place(relx=0.033, rely=0.867, height=33, width=48)
+        self.btn_close.place(relx=0.05, rely=0.8, height=33, width=78)
         self.btn_close.configure(activebackground="#d9d9d9")
         self.btn_close.configure(activeforeground="#000000")
         self.btn_close.configure(background="#d9d9d9")
