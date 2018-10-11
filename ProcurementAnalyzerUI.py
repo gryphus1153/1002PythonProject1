@@ -20,15 +20,7 @@ try: #Import Tkinter
 except ImportError:
     from tkinter import *
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-
 try: #Import ttk & tkFileDialog
-=======
-=======
->>>>>>> 6523728b7ac77b5e06c2555cb76eb2e21debb292
-try:
->>>>>>> 6523728b7ac77b5e06c2555cb76eb2e21debb292
     import ttk
     import tkFileDialog
 
@@ -80,53 +72,22 @@ contractorFilePath = os.path.join(currentFileDir, contractorFileRel)
 # default tender file info
 tenderFileRel = "ProjectDatasets/government-procurement/government-procurement-via-gebiz.csv"
 tenderFilePath = os.path.join(currentFileDir, tenderFileRel)
-<<<<<<< HEAD
 
-
-<<<<<<< HEAD
 #============================== Functions ============================#
 def changeScreen(cla, dataset=None, datatype=None): #Screen Transition from screen to screen
-=======
-=======
-
-
->>>>>>> 6523728b7ac77b5e06c2555cb76eb2e21debb292
-# ============================== Functions ============================#
-def changeScreen(cla, dataset=None, datatype=None):
->>>>>>> 6523728b7ac77b5e06c2555cb76eb2e21debb292
     for widget in root.winfo_children():
         widget.destroy()
 
     if cla == "MainPage":
         MainPage(root)
     else:
-<<<<<<< HEAD
-<<<<<<< HEAD
         eval("%s(root,dataset=dataset,datatype=datatype)" %(cla))
         
 def newWindow(cla, dataset=None, datatype=None): #Creates new window
     topNew = Toplevel()
     eval("%s(topNew, dataset = dataset, datatype=datatype)" %(cla))
-    
-def destroyWindow(top): #Destroys new Window
-=======
-        eval("%s(root,dataset=dataset,datatype=datatype)" % (cla))
-
-
-def newWindow(cla, data=None):
-    topNew = Toplevel()
-=======
-        eval("%s(root,dataset=dataset,datatype=datatype)" % (cla))
-
-
-def newWindow(cla, data=None):
-    topNew = Toplevel()
->>>>>>> 6523728b7ac77b5e06c2555cb76eb2e21debb292
-    eval("%s(topNew, dataset = data)" % (cla))
-
 
 def destroyWindow(top):
->>>>>>> 6523728b7ac77b5e06c2555cb76eb2e21debb292
     top.destroy()
 
 
@@ -257,41 +218,15 @@ class Load_CSV:  # Func 1: Opening screen to load CSV
             global dataDict
 
             contractorDict = Amin.processContractors(self.Entry_C.get())
-            tenderDict = Amin.processTenders(self.Entry_T.get())  # dataFrame = ProjOpenFunction.garyopenfunction
-            contractorPandas = pd.read_csv(self.Entry_C.get(), low_memory=False,
-                                           dtype=str)  # for li in dataFrame.values.tolist():
-            tenderPandas = pd.read_csv(self.Entry_T.get(), low_memory=False,
-                                       dtype=str)  # self.Scrolledlistbox1.insert(END, str(li))
+            tenderDict = Amin.processTenders(self.Entry_T.get())
+            contractorPandas = pd.read_csv(self.Entry_C.get(), low_memory=False,dtype=str)
+            tenderPandas = pd.read_csv(self.Entry_T.get(), low_memory=False,dtype=str) 
             dataDict["chris"] = Chris.sortBy_workheads_grade_expiry(Chris.csvClass().read_csv(self.Entry_C.get()))
-
-            # for li in ProjFunction3.garyfunction3("asc").values.tolist():
-            #    self.Scrolledlistbox1.insert(END, str(li))
-
-            # chris
-            # for item in PythonProject.workheads.construction.construction():
-            #    self.Scrolledlistbox1.insert(END, str(item))
-
-            # for key in contractorDict:
-            #    self.Scrolledlistbox1.insert(END, contractorDict[key].toCSV())
             changeScreen("MainPage")
         except Exception as e:
             print(e)
             self.Scrolledlistbox1.insert(END, e)
-<<<<<<< HEAD
-<<<<<<< HEAD
-            
-            
 class MainPage: #Main screen with buttons to go to other functions
-=======
-
-
-class MainPage:  # MANY DOORS THAT GO EVERYWHERE
->>>>>>> 6523728b7ac77b5e06c2555cb76eb2e21debb292
-=======
-
-
-class MainPage:  # MANY DOORS THAT GO EVERYWHERE
->>>>>>> 6523728b7ac77b5e06c2555cb76eb2e21debb292
     def __init__(self, top=None):
         '''This class configures and populates the toplevel window.
            top is the toplevel containing window.'''
@@ -376,8 +311,7 @@ class MainPage:  # MANY DOORS THAT GO EVERYWHERE
         self.btn_F4.configure(pady="0")
         self.btn_F4.configure(text='''Func 4: Awarded Contractors''')
         self.btn_F4.configure(
-            command=lambda: changeScreen("View_Info", dataset=CK1.cleanedUpDataFrame.values.tolist(),
-                                         datatype="CK1"))
+            command=lambda: changeScreen("View_Info", dataset=CK1.cleanedUpDataFrame.values.tolist(),datatype="CK1"))
 
 
         # Func 5
@@ -391,21 +325,9 @@ class MainPage:  # MANY DOORS THAT GO EVERYWHERE
         self.btn_F5.configure(highlightbackground="#d9d9d9")
         self.btn_F5.configure(highlightcolor="black")
         self.btn_F5.configure(pady="0")
-<<<<<<< HEAD
-<<<<<<< HEAD
-        self.btn_F5.configure(text='''Function 5''')
-        self.btn_F5.configure(command=lambda:newWindow("View_Info",dataset=contractorDict,datatype="contractor"))
-=======
-=======
->>>>>>> 6523728b7ac77b5e06c2555cb76eb2e21debb292
         self.btn_F5.configure(text='''Func 5: procurement Award ''')
         self.btn_F5.configure(
-            command=lambda: changeScreen("View_Info", dataset=CK2.totalContractorsDataFrame.values.tolist(),
-                                         datatype="CK2"))
-<<<<<<< HEAD
->>>>>>> 6523728b7ac77b5e06c2555cb76eb2e21debb292
-=======
->>>>>>> 6523728b7ac77b5e06c2555cb76eb2e21debb292
+            command=lambda: changeScreen("View_Info", dataset=CK2.totalContractorsDataFrame.values.tolist(),datatype="CK2"))
 
         # Func 6
         self.btn_MinistrySpend = Button(top)
@@ -420,8 +342,7 @@ class MainPage:  # MANY DOORS THAT GO EVERYWHERE
         self.btn_MinistrySpend.configure(pady="0")
         self.btn_MinistrySpend.configure(text='''Func 6: Ministry Spending''')
         self.btn_MinistrySpend.configure(
-            command=lambda: changeScreen("View_Info", dataset=Shirlene.ministrySpending.values.tolist(),
-                                         datatype="shirl"))
+            command=lambda: changeScreen("View_Info", dataset=Shirlene.ministrySpending.values.tolist(),datatype="shirl"))
 
         self.btn_CatagorySpend = Button(top)
         self.btn_CatagorySpend.place(relx=0.05, rely=0.667, height=33, width=146)
@@ -435,8 +356,7 @@ class MainPage:  # MANY DOORS THAT GO EVERYWHERE
         self.btn_CatagorySpend.configure(pady="0")
         self.btn_CatagorySpend.configure(text='''Func 6: Category Spending''')
         self.btn_CatagorySpend.configure(
-            command=lambda: changeScreen("View_Info", dataset=Shirlene.categorySpending.values.tolist(),
-                                         datatype="shirl"))
+            command=lambda: changeScreen("View_Info", dataset=Shirlene.categorySpending.values.tolist(),datatype="shirl"))
 
         # SEPERATOR
         self.TSeparator1 = ttk.Separator(top)
@@ -495,8 +415,7 @@ class MainPage:  # MANY DOORS THAT GO EVERYWHERE
         self.btn_overtendered.configure(pady="0")
         self.btn_overtendered.configure(text='''Amin: Over Tender Limit''')
         self.btn_overtendered.configure(
-            command=lambda: changeScreen("View_Info", dataset=Amin.overtendered(tenderDict, contractorDict),
-                                         datatype="amin"))
+            command=lambda: changeScreen("View_Info", dataset=Amin.overtendered(tenderDict, contractorDict),datatype="amin"))
 
         self.btn_latestContractor = Button(top)
         self.btn_latestContractor.place(relx=0.332, rely=0.4, height=33, width=146)
@@ -522,20 +441,7 @@ class MainPage:  # MANY DOORS THAT GO EVERYWHERE
         self.btn_minmax.configure(highlightcolor="black")
         self.btn_minmax.configure(pady="0")
         self.btn_minmax.configure(text='''WeiJi: Min/Max''')
-<<<<<<< HEAD
-<<<<<<< HEAD
-        self.btn_minmax.configure(command=lambda: changeScreen("View_Info", datatype = "weiji"))
-        
-=======
-        self.btn_minmax.configure(
-            command=lambda: changeScreen("View_Info", dataset=Weiji.bidamount(tenderDict), datatype="weiji"))
-
->>>>>>> 6523728b7ac77b5e06c2555cb76eb2e21debb292
-=======
-        self.btn_minmax.configure(
-            command=lambda: changeScreen("View_Info", dataset=Weiji.bidamount(tenderDict), datatype="weiji"))
-
->>>>>>> 6523728b7ac77b5e06c2555cb76eb2e21debb292
+        self.btn_minmax.configure(command=lambda: changeScreen("View_Info", dataset=Weiji.bidamount(tenderDict), datatype="weiji"))
         self.btn_contractordesc = Button(top)
         self.btn_contractordesc.place(relx=0.332, rely=0.578, height=33, width=146)
         self.btn_contractordesc.configure(activebackground="#d9d9d9")
@@ -565,38 +471,18 @@ class MainPage:  # MANY DOORS THAT GO EVERYWHERE
         self.btn_agencyFreq.configure(command=lambda: changeScreen("View_Info_Agency", dataset=Weiji.agencyFreq(
             Amin.getAgencyProcurement(tenderDict), tenderDict), datatype="weiji"))
 
-<<<<<<< HEAD
-<<<<<<< HEAD
     def createData(self, datatype):
         evals = {"agencyDict":["View_Info_Agency", "Amin.getAgencyProcurement(tenderDict)"], 
                 "weiji2": ["View_Info", "Weiji.contractordesc(contractorFilePath)"]}
-=======
-    def createData(self, type):
-        evals = {"agencyDict": ["View_Info_Agency", "Amin.getAgencyProcurement(tenderDict)"]}
->>>>>>> 6523728b7ac77b5e06c2555cb76eb2e21debb292
-=======
-    def createData(self, type):
-        evals = {"agencyDict": ["View_Info_Agency", "Amin.getAgencyProcurement(tenderDict)"]}
->>>>>>> 6523728b7ac77b5e06c2555cb76eb2e21debb292
         global dataDict
         if type not in dataDict:
             dataDict[datatype] = eval(evals[datatype][1])
         dataset = dataDict[datatype]
         cla = evals[datatype][0]
         changeScreen(cla, dataset=dataset, datatype=datatype)
-
-<<<<<<< HEAD
-<<<<<<< HEAD
+        
         
 class View_Info: #General Purpose Info box. Give a dataset & (datatype). sendActive() will send a list of items for detail
-=======
-
-class View_Info:  # General Purpose Info box. Give a dict & (datatype) sendActive() will send a list of items for detail
->>>>>>> 6523728b7ac77b5e06c2555cb76eb2e21debb292
-=======
-
-class View_Info:  # General Purpose Info box. Give a dict & (datatype) sendActive() will send a list of items for detail
->>>>>>> 6523728b7ac77b5e06c2555cb76eb2e21debb292
     def __init__(self, top=None, dataset=None, datatype=None):
         '''This class configures and populates the toplevel window.
            top is the toplevel containing window.'''
@@ -612,23 +498,10 @@ class View_Info:  # General Purpose Info box. Give a dict & (datatype) sendActiv
         self.style = ttk.Style()
         if sys.platform == "win32":
             self.style.theme_use('winnative')
-<<<<<<< HEAD
-<<<<<<< HEAD
         self.style.configure('.',background=_bgcolor)
         self.style.configure('.',foreground=_fgcolor)
         self.style.map('.',background=
             [('selected', _compcolor), ('active',_ana2color)])
-=======
-=======
->>>>>>> 6523728b7ac77b5e06c2555cb76eb2e21debb292
-        self.style.configure('.', background=_bgcolor)
-        self.style.configure('.', foreground=_fgcolor)
-        self.style.map('.', background=
-        [('selected', _compcolor), ('active', _ana2color)])
-
-        self.dataset = dataset
-        self.datatype = datatype
->>>>>>> 6523728b7ac77b5e06c2555cb76eb2e21debb292
 
         if self.datatype == "amin":
             top.geometry("800x600")
@@ -636,16 +509,8 @@ class View_Info:  # General Purpose Info box. Give a dict & (datatype) sendActiv
             top.geometry("600x450")
         top.title("View Info")
         top.configure(background="#d9d9d9")
-<<<<<<< HEAD
-<<<<<<< HEAD
         
         #Back button
-=======
-
->>>>>>> 6523728b7ac77b5e06c2555cb76eb2e21debb292
-=======
-
->>>>>>> 6523728b7ac77b5e06c2555cb76eb2e21debb292
         self.btn_back = Button(top)
         self.btn_back.place(relx=0.033, rely=0.889, height=33, width=83)
         self.btn_back.configure(activebackground="#d9d9d9")
@@ -658,17 +523,9 @@ class View_Info:  # General Purpose Info box. Give a dict & (datatype) sendActiv
         self.btn_back.configure(pady="0")
         self.btn_back.configure(text='''Back''')
         self.btn_back.configure(width=83)
-<<<<<<< HEAD
-<<<<<<< HEAD
         self.btn_back.configure(command = lambda: changeScreen("MainPage"))
         
         #Scrolled List box for showing data with a scrollbar
-=======
-=======
->>>>>>> 6523728b7ac77b5e06c2555cb76eb2e21debb292
-        self.btn_back.configure(command=lambda: changeScreen("MainPage"))
-
->>>>>>> 6523728b7ac77b5e06c2555cb76eb2e21debb292
         self.Scrolledlistbox1 = ScrolledListBox(top)
         self.Scrolledlistbox1.place(relx=0.033, rely=0.044, relheight=0.816
                                     , relwidth=0.925)
@@ -682,16 +539,8 @@ class View_Info:  # General Purpose Info box. Give a dict & (datatype) sendActiv
         self.Scrolledlistbox1.configure(selectforeground="black")
         self.Scrolledlistbox1.configure(width=10)
         self.Scrolledlistbox1.activate(1)
-<<<<<<< HEAD
-<<<<<<< HEAD
         
         #Initial insertion into the listbox based on given dataset/datatype
-=======
-
->>>>>>> 6523728b7ac77b5e06c2555cb76eb2e21debb292
-=======
-
->>>>>>> 6523728b7ac77b5e06c2555cb76eb2e21debb292
         if self.datatype == "shirl":
             self.Scrolledlistbox1.insert(END, "%-49.49s : %s" % ("Category", "Spending"))
             for row in self.dataset:
@@ -717,33 +566,24 @@ class View_Info:  # General Purpose Info box. Give a dict & (datatype) sendActiv
             self.Scrolledlistbox1.configure(state="disabled")
 
         elif self.datatype == "CK1":
-            self.Scrolledlistbox1.insert(END, "%-72.72s : %s" % ("Company Name:", "Status:"))
+            self.Scrolledlistbox1.insert(END, "%-50.50s : %s" % ("Company Name:", "Status:"))
             for row in self.dataset:
-                self.Scrolledlistbox1.insert(END, "%-72.72s : %s" % (row[5], row[4]))
+                self.Scrolledlistbox1.insert(END, "%-50.50s : %s" % (row[5], row[4]))
             self.Scrolledlistbox1.configure(state="disabled")
 
         elif self.datatype == "CK2":
-            self.Scrolledlistbox1.insert(END, "%-72.72s : %s" % ("Company Name:", "Amount:"))
+            self.Scrolledlistbox1.insert(END, "%-50.50s : %s" % ("Company Name:", "Amount:"))
             for row in self.dataset:
-                self.Scrolledlistbox1.insert(END, "%-72.72s : $%s" % (row[0], row[1]))
+                self.Scrolledlistbox1.insert(END, "%-50.50s : $%s" % (row[0], row[1]))
             self.Scrolledlistbox1.configure(state="disabled")
 
         else:
             for key in sorted(dataset.keys()):
                 self.Scrolledlistbox1.insert(END, key)
             self.Scrolledlistbox1.activate(0)
-<<<<<<< HEAD
-<<<<<<< HEAD
-                
-                
-        #Show or remove access button based on the datatype
-        if self.datatype != "shirl" and self.datatype != "weiji2": 
-=======
-=======
->>>>>>> 6523728b7ac77b5e06c2555cb76eb2e21debb292
 
-        if self.datatype != "shirl" or self.datatype != "weiji2":
->>>>>>> 6523728b7ac77b5e06c2555cb76eb2e21debb292
+        #Show or remove access button based on the datatype
+        if self.datatype != "shirl" and self.datatype != "weiji2" and self.datatype != "CK1": 
             self.btn_access = Button(top)
             self.btn_access.place(relx=0.817, rely=0.889, height=33, width=83)
             self.btn_access.configure(activebackground="#d9d9d9")
@@ -755,14 +595,6 @@ class View_Info:  # General Purpose Info box. Give a dict & (datatype) sendActiv
             self.btn_access.configure(highlightcolor="black")
             self.btn_access.configure(pady="0")
             self.btn_access.configure(text='''Access''')
-<<<<<<< HEAD
-<<<<<<< HEAD
-            self.btn_access.configure(command = lambda: self.sendActive())
-        
-    def sendActive(self): #Show in another window the specific details of the selected line
-=======
-=======
->>>>>>> 6523728b7ac77b5e06c2555cb76eb2e21debb292
             if self.datatype != "CK2":
                 self.btn_access.configure(command=lambda: self.sendActive())
             else:
@@ -779,7 +611,6 @@ class View_Info:  # General Purpose Info box. Give a dict & (datatype) sendActiv
         self.Scrolledlistbox1.configure(state="disabled")
 
     def sendActive(self):
->>>>>>> 6523728b7ac77b5e06c2555cb76eb2e21debb292
         if self.datatype == "amin":
             key = self.Scrolledlistbox1.get(ACTIVE)[:17]
             dataObj = tenderDict[key]
@@ -846,14 +677,8 @@ class View_Info_Agency:  # Func 2:View Agency procurement info
         top.title("View Tenders")
         top.configure(background="#d9d9d9")
 
-<<<<<<< HEAD
-<<<<<<< HEAD
 
         #Listbox for showing Agency info
-=======
->>>>>>> 6523728b7ac77b5e06c2555cb76eb2e21debb292
-=======
->>>>>>> 6523728b7ac77b5e06c2555cb76eb2e21debb292
         self.ScrolledlistboxAgency = ScrolledListBox(top)
         self.ScrolledlistboxAgency.place(relx=0.033, rely=0.111, relheight=0.749
                                          , relwidth=0.575)
@@ -915,17 +740,10 @@ class View_Info_Agency:  # Func 2:View Agency procurement info
         self.btn_viewT.configure(text='''View Tenders''')
         if self.datatype == "weiji":
             self.btn_viewT.configure(text='''View Companies''')
-<<<<<<< HEAD
-<<<<<<< HEAD
+            
         self.btn_viewT.configure(command=lambda:self.viewTenders())
         
         #Back button
-=======
-=======
->>>>>>> 6523728b7ac77b5e06c2555cb76eb2e21debb292
-        self.btn_viewT.configure(command=lambda: self.viewTenders())
-
->>>>>>> 6523728b7ac77b5e06c2555cb76eb2e21debb292
         self.btn_back = Button(top)
         self.btn_back.place(relx=0.033, rely=0.889, height=33, width=48)
         self.btn_back.configure(activebackground="#d9d9d9")
@@ -937,18 +755,9 @@ class View_Info_Agency:  # Func 2:View Agency procurement info
         self.btn_back.configure(highlightcolor="black")
         self.btn_back.configure(pady="0")
         self.btn_back.configure(text='''Back''')
-<<<<<<< HEAD
-<<<<<<< HEAD
         self.btn_back.configure(command = lambda: changeScreen("MainPage"))
         
         if datatype != "amin" and datatype != "weiji": #Remove the access button for certain datatypes
-=======
-=======
->>>>>>> 6523728b7ac77b5e06c2555cb76eb2e21debb292
-        self.btn_back.configure(command=lambda: changeScreen("MainPage"))
-
-        if datatype != "amin":
->>>>>>> 6523728b7ac77b5e06c2555cb76eb2e21debb292
             self.btn_access = Button(top)
             self.btn_access.place(relx=0.867, rely=0.889, height=33, width=56)
             self.btn_access.configure(activebackground="#d9d9d9")
@@ -960,23 +769,10 @@ class View_Info_Agency:  # Func 2:View Agency procurement info
             self.btn_access.configure(highlightcolor="black")
             self.btn_access.configure(pady="0")
             self.btn_access.configure(text='''Access''')
-<<<<<<< HEAD
-<<<<<<< HEAD
             self.btn_access.configure(command=lambda:self.sendActive())
-        
-    def viewTenders(self): #View tender info based on the selection in agencylist
-        self.ScrolledlistboxTenders.delete(0,END)
-=======
-=======
->>>>>>> 6523728b7ac77b5e06c2555cb76eb2e21debb292
-            self.btn_access.configure(command=lambda: self.sendActive())
 
     def viewTenders(self):
         self.ScrolledlistboxTenders.delete(0, END)
-<<<<<<< HEAD
->>>>>>> 6523728b7ac77b5e06c2555cb76eb2e21debb292
-=======
->>>>>>> 6523728b7ac77b5e06c2555cb76eb2e21debb292
         active = self.ScrolledlistboxAgency.get(ACTIVE)
         if self.datatype == "weiji":
             for tender in sorted(self.dataset[active]):
@@ -997,18 +793,8 @@ class View_Info_Agency:  # Func 2:View Agency procurement info
         except:
             pass
 
-<<<<<<< HEAD
-<<<<<<< HEAD
             
 class View_Total: #Func 3:View total amount of procurement. Modified View_Info class
-=======
-
-class View_Total:  # Func 3:View total amount of procurement
->>>>>>> 6523728b7ac77b5e06c2555cb76eb2e21debb292
-=======
-
-class View_Total:  # Func 3:View total amount of procurement
->>>>>>> 6523728b7ac77b5e06c2555cb76eb2e21debb292
     def __init__(self, top=None, dataset=None, datatype=None):
         '''This class configures and populates the toplevel window.
            top is the toplevel containing window.'''
@@ -1028,15 +814,8 @@ class View_Total:  # Func 3:View total amount of procurement
         top.geometry("600x450")
         top.title("View Total Procurement")
         top.configure(background="#d9d9d9")
-<<<<<<< HEAD
-<<<<<<< HEAD
-        
-        #Back button
-=======
-=======
->>>>>>> 6523728b7ac77b5e06c2555cb76eb2e21debb292
 
->>>>>>> 6523728b7ac77b5e06c2555cb76eb2e21debb292
+        
         self.btn_back = Button(top)
         self.btn_back.place(relx=0.033, rely=0.889, height=33, width=83)
         self.btn_back.configure(activebackground="#d9d9d9")
@@ -1098,16 +877,8 @@ class View_Total:  # Func 3:View total amount of procurement
             self.Scrolledlistbox1.insert(END, "%-59.59s : %s" % (key, str(dataset[key])))
         self.Scrolledlistbox1.configure(state="disabled")
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-        
-class Dropdown_Search: #General purpose Search box. Similar to a View_Info box but with a fixed search function to reduce the amount of datavalidation required
-=======
-=======
->>>>>>> 6523728b7ac77b5e06c2555cb76eb2e21debb292
 
-class Dropdown_Search:
->>>>>>> 6523728b7ac77b5e06c2555cb76eb2e21debb292
+class Dropdown_Search: #General purpose Search box. Similar to a View_Info box but with a fixed search function to reduce the amount of datavalidation required
     def __init__(self, top=None, dataset=None, datatype=None):
         '''This class configures and populates the toplevel window.
            top is the toplevel containing window.'''
@@ -1182,34 +953,13 @@ class Dropdown_Search:
         ProcurementAnalyzerUI_support.combobox = ""
         if datatype == "area":
             self.TCombobox1.set("Amber Road")
-            fill = ["Raffles Place", "Cecil", "Marina", "People's Park", "Anson", "Tanjong Pagar", "Queenstown",
-                    "Tiong Bahru", "Telok Blangah", "Harbourfront", "Pasir Panjang", "Hong Leong Garden",
-                    "Clementi New Town", "High Street", "Beach Road", "Middle Road", "Golden Mile", "Little India",
-                    "Orchard", "Cairnhill", "River Valley", "Ardmore", "Bukit Timah", "Holland Road", "Tanglin",
-                    "Watten Estate", "Novena", "Thomson", "Balestier", "Toa Payoh", "Serangoon", "Macpherson",
-                    "Braddell", "Geylang", "Eunos", "Katong", "Joo Chiat", "Amber Road", "Bedok", "Upper East Coast",
-                    "Eastwood", "Kew Drive", "Loyang", "Changi", "Tampines", "Pasir Ris", "Serangoon Garden", "Hougang",
-                    "Ponggol", "Bishan", "Ang Mo Kio", "Upper Bukit Timah", "Clementi Park", "Ulu Pandan", "Jurong",
-                    "Hillview", "Dairy Farm", "Bukit Panjang", "Choa Chu Kang", "Lim Chu Kang", "Tengah", "Kranji",
-                    "Woodgrove", "Upper Thomson", "Springleaf", "Yishun", "Sembawang", "Seletar"]
+            fill = ["Raffles Place", "Cecil", "Marina", "People's Park", "Anson", "Tanjong Pagar", "Queenstown","Tiong Bahru", "Telok Blangah", "Harbourfront", "Pasir Panjang", "Hong Leong Garden","Clementi New Town", "High Street", "Beach Road", "Middle Road", "Golden Mile", "Little India","Orchard", "Cairnhill", "River Valley", "Ardmore", "Bukit Timah", "Holland Road", "Tanglin","Watten Estate", "Novena", "Thomson", "Balestier", "Toa Payoh", "Serangoon", "Macpherson","Braddell", "Geylang", "Eunos", "Katong", "Joo Chiat", "Amber Road", "Bedok", "Upper East Coast","Eastwood", "Kew Drive", "Loyang", "Changi", "Tampines", "Pasir Ris", "Serangoon Garden", "Hougang","Ponggol", "Bishan", "Ang Mo Kio", "Upper Bukit Timah", "Clementi Park", "Ulu Pandan", "Jurong","Hillview", "Dairy Farm", "Bukit Panjang", "Choa Chu Kang", "Lim Chu Kang", "Tengah", "Kranji","Woodgrove", "Upper Thomson", "Springleaf", "Yishun", "Sembawang", "Seletar"]
 
         elif datatype == "workhead":
             self.TCombobox1.set("A1")
-<<<<<<< HEAD
-<<<<<<< HEAD
             fill = Amin.gradeDict.keys() #["A1", "A2", "B1", "B2", "C1", "C2", "C3", "SingleGrade", "L6", "L5", "L4", "L3", "L2", "L1"]
             
         elif datatype =="amin":
-=======
-            fill = ["A1", "A2", "B1", "B2", "C1", "C2", "C3", "SingleGrade", "L6", "L5", "L4", "L3", "L2", "L1"]
-
-        elif datatype == "amin":
->>>>>>> 6523728b7ac77b5e06c2555cb76eb2e21debb292
-=======
-            fill = ["A1", "A2", "B1", "B2", "C1", "C2", "C3", "SingleGrade", "L6", "L5", "L4", "L3", "L2", "L1"]
-
-        elif datatype == "amin":
->>>>>>> 6523728b7ac77b5e06c2555cb76eb2e21debb292
             self.TCombobox1.set("1 BUILDER & RECYCLE PTE. LTD.")
             fill = contractorDict.keys()
 
@@ -1247,19 +997,9 @@ class Dropdown_Search:
         elif self.datatype == "workhead":
             self.Scrolledlistbox1.delete(0, END)
             for contractor in dataDict["chris"].workheadGrade(selection):
-<<<<<<< HEAD
-<<<<<<< HEAD
                 if contractor[0] not in self.Scrolledlistbox1.get(END):
                     self.Scrolledlistbox1.insert(END, contractor[0])
-                
-=======
-                self.Scrolledlistbox1.insert(END, contractor[0])
 
->>>>>>> 6523728b7ac77b5e06c2555cb76eb2e21debb292
-=======
-                self.Scrolledlistbox1.insert(END, contractor[0])
-
->>>>>>> 6523728b7ac77b5e06c2555cb76eb2e21debb292
         elif self.datatype == "amin":
             original = contractorDict[selection]
             uen = original.uen_no
@@ -1283,16 +1023,7 @@ class Dropdown_Search:
         newWindow(cla, data)
 
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-        
 class View_Expired: #Chris :View Expired Contractors. Modified View_Info class
-=======
-class View_Expired:  # Chris :View Expired Contractors
->>>>>>> 6523728b7ac77b5e06c2555cb76eb2e21debb292
-=======
-class View_Expired:  # Chris :View Expired Contractors
->>>>>>> 6523728b7ac77b5e06c2555cb76eb2e21debb292
     def __init__(self, top=None, dataset=None, datatype=None):
         '''This class configures and populates the toplevel window.
            top is the toplevel containing window.'''
@@ -1384,19 +1115,9 @@ class View_Expired:  # Chris :View Expired Contractors
 
         self.Scrolledlistbox1.delete(0, END)
         for key in dataset:
-<<<<<<< HEAD
-<<<<<<< HEAD
             if key[0] not in self.Scrolledlistbox1.get(END):
                 self.Scrolledlistbox1.insert(END, key[0])
-            
-=======
-            self.Scrolledlistbox1.insert(END, key[0])
 
->>>>>>> 6523728b7ac77b5e06c2555cb76eb2e21debb292
-=======
-            self.Scrolledlistbox1.insert(END, key[0])
-
->>>>>>> 6523728b7ac77b5e06c2555cb76eb2e21debb292
     def sendActive(self):
         dataObj = contractorDict[self.Scrolledlistbox1.get(ACTIVE)]
         data = [dataObj.company_name, dataObj.uen_no, dataObj.address.toAddress(), dataObj.tel_no, dataObj.expiry_date,
@@ -1406,17 +1127,9 @@ class View_Expired:  # Chris :View Expired Contractors
         print data
         newWindow(cla, data)
 
-<<<<<<< HEAD
-<<<<<<< HEAD
+        
 class View_Contractor: #Shows Contractor Details
     def __init__(self, top=None, dataset=None, datatype=None):
-=======
-=======
->>>>>>> 6523728b7ac77b5e06c2555cb76eb2e21debb292
-
-class View_Contractor:  # Shows Contractor Details
-    def __init__(self, top=None, dataset=None):
->>>>>>> 6523728b7ac77b5e06c2555cb76eb2e21debb292
         '''This class configures and populates the toplevel window.
            top is the toplevel containing window.'''
         _bgcolor = '#d9d9d9'  # X11 color: 'gray85'
@@ -1612,18 +1325,9 @@ class View_Contractor:  # Shows Contractor Details
         self.btn_close.configure(text='''Close''')
         self.btn_close.configure(command=lambda: destroyWindow(top))
 
-<<<<<<< HEAD
-<<<<<<< HEAD
         
 class View_ContractorSpec: #Shows difference in Contractor details. Midified View_Contractor class
     def __init__(self, top=None, dataset=None, datatype=None):
-=======
-=======
->>>>>>> 6523728b7ac77b5e06c2555cb76eb2e21debb292
-
-class View_ContractorSpec:  # Shows Contractor Details
-    def __init__(self, top=None, dataset=None):
->>>>>>> 6523728b7ac77b5e06c2555cb76eb2e21debb292
         '''This class configures and populates the toplevel window.
            top is the toplevel containing window.'''
         _bgcolor = '#d9d9d9'  # X11 color: 'gray85'
@@ -1810,15 +1514,7 @@ class View_ContractorSpec:  # Shows Contractor Details
         self.txt_workheads.configure(selectforeground="black")
         self.txt_workheads.configure(width=434)
         self.txt_workheads.configure(wrap=WORD)
-<<<<<<< HEAD
-#        for workhead in dataset[0][5]:
-#            input = workhead + " : " + dataset[0][5][workhead] + " : $" + str(Amin.gradeDict[dataset[0][5][workhead]])
-#            if dataset[0][5][workhead] != dataset[1][5]:
-#                input = input +" ==> "+  workhead + " : " + dataset[0][5][workhead] + " : $" + str(Amin.gradeDict[dataset[0][5][workhead]])
-                
-#            self.txt_workheads.insert(END, input.replace("$2147483647", "Unlimited") + "\n")
-            
-            
+        
         if dataset[0][5] == dataset[1][5]:
             for workhead in dataset[0][5]:
                 input = workhead + " : " + dataset[0][5][workhead] + " : $" + str(Amin.gradeDict[dataset[0][5][workhead]])
@@ -1839,12 +1535,10 @@ class View_ContractorSpec:  # Shows Contractor Details
                 input = "%-33.33s ==> %-33.33s" %(workheadDict[key][0], workheadDict[key][1])
                 self.txt_workheads.insert(END, input.replace("$2147483647", "Unlimited") + "\n")
             
-=======
         for workhead in dataset[1][5]:
             limit = Amin.gradeDict[dataset[1][5][workhead]]
             self.txt_workheads.insert(END, workhead + " : " + dataset[1][5][workhead] + " : $" + str(limit) + "\n")
         if dataset[0][5] != dataset[1][5]:
->>>>>>> 6523728b7ac77b5e06c2555cb76eb2e21debb292
             self.txt_workheads.configure(foreground="red")
         self.txt_workheads.configure(state="disabled")
 
@@ -1862,18 +1556,9 @@ class View_ContractorSpec:  # Shows Contractor Details
         self.btn_close.configure(text='''Close''')
         self.btn_close.configure(command=lambda: destroyWindow(top))
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-        
+
 class View_Tender: #Shows the Tender Details
     def __init__(self, top=None, dataset=None, datatype=None):
-=======
-=======
->>>>>>> 6523728b7ac77b5e06c2555cb76eb2e21debb292
-
-class View_Tender:  # Shows the Tender Details
-    def __init__(self, top=None, dataset=None):
->>>>>>> 6523728b7ac77b5e06c2555cb76eb2e21debb292
         '''This class configures and populates the toplevel window.
            top is the toplevel containing window.'''
         _bgcolor = '#d9d9d9'  # X11 color: 'gray85'
@@ -2102,22 +1787,10 @@ class View_Tender:  # Shows the Tender Details
         self.btn_close.configure(highlightcolor="black")
         self.btn_close.configure(pady="0")
         self.btn_close.configure(text='''Close''')
-<<<<<<< HEAD
-<<<<<<< HEAD
         self.btn_close.configure(command=lambda:destroyWindow(top))
 
         
-=======
-        self.btn_close.configure(command=lambda: destroyWindow(top))
-
->>>>>>> 6523728b7ac77b5e06c2555cb76eb2e21debb292
-=======
-        self.btn_close.configure(command=lambda: destroyWindow(top))
-
->>>>>>> 6523728b7ac77b5e06c2555cb76eb2e21debb292
         # The following code is added to facilitate the Scrolled widgets you specified.
-
-
 class AutoScroll(object):
     '''Configure the scrollbars for a widget.'''
 
