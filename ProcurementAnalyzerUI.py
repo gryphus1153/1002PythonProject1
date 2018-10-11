@@ -608,7 +608,20 @@ class View_Info:  # General Purpose Info box. Give a dict & (datatype) sendActiv
             self.btn_access.configure(highlightcolor="black")
             self.btn_access.configure(pady="0")
             self.btn_access.configure(text='''Access''')
-            self.btn_access.configure(command=lambda: self.sendActive())
+            if self.datatype != "CK2":
+                self.btn_access.configure(command=lambda: self.sendActive())
+            else:
+                self.btn_access.configure(text='''Top 5''')
+                self.btn_access.configure(command=lambda: self.top5())
+
+
+    def top5(self):
+        self.Scrolledlistbox1.configure(state="normal")
+        self.Scrolledlistbox1.delete(1, END)
+        dataset = CK2.top5DataFrame.values.tolist()
+        for row in dataset:
+            self.Scrolledlistbox1.insert(END, "%-50.50s : $%s" % (row[0], row[1]))
+        self.Scrolledlistbox1.configure(state="disabled")
 
     def sendActive(self):
         if self.datatype == "amin":
