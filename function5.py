@@ -1,4 +1,3 @@
-
 import pandas as pd
 import os
 
@@ -16,17 +15,15 @@ top5File = os.path.join(currentFileDir, top5File)
 govtDataFrame = pd.DataFrame(pd.read_csv(govtTenderFile))
 registeredContractorsDataFrame = pd.DataFrame(pd.read_csv(registeredContractorsFile))
 
-procurementDataFrame = govtDataFrame.merge(registeredContractorsDataFrame, how='outer', left_on='supplier_name', right_on='company_name')  # mergers both datasets together into new dataFrame called df3
+procurementDataFrame = govtDataFrame.merge(registeredContractorsDataFrame, how='outer', left_on='supplier_name', right_on='company_name')  # mergers both datasets together into new dataFrame
 procurementDataFrame.drop(['company_name', 'postal_code'], axis=1, inplace=True)  # drops company name and postal code column after merging csv files.
-
+procurementDataFrame.drop_duplicates('tender_no.', inplace=True)  # drops duplicated rows after merging csv files.
+procurementDataFrame['supplier_name'] = procurementDataFrame['supplier_name'].str.lower()  # Converts the supplier_name Column into lower case
 groupedSupplierDataFrame = procurementDataFrame.groupby('supplier_name')  # group by supplier names
-groupedSupplierDataFrame.sum().to_csv(totalContractorsFile)  # sums up the total awarded amounts by supplier names and creates total
-groupedSupplierDataFrame.sum().nlargest(5, 'awarded_amt').to_csv(top5File)  # sums up the awarded amounts by supplier names and sorts out the top 5 companies..
-# groupedSupplierDataFrame.sum().nlargest(10, 'awarded_amt').to_csv('ProjectDatasets\\top10Awards.csv')  # sums up the awarded amounts by supplier names and sorts out the top 10 companies..
-# groupedSupplierDataFrame.sum().nlargest(50, 'awarded_amt').to_csv('ProjectDatasets\\top50Awards.csv')  # sums up the awarded amounts by supplier names and sorts out the top 50 companies..
-# groupedSupplierDataFrame.sum().nlargest(100, 'awarded_amt').to_csv('ProjectDatasets\\top100Awards.csv')  # sums up the awarded amounts by supplier names and sorts out the top 100 companies..
+groupedSupplierDataFrame.sum().to_csv('ProjectDatasets\\totalNRCnRC.csv')  # sums up the total awarded amounts by supplier names and creates total
 
 # print groupedSupplierDataFrame  # <------- test
-
 totalContractorsDataFrame = pd.DataFrame(pd.read_csv(totalContractorsFile))
+totalContractorsDataFrame.nlargest(5, 'awarded_amt').to_csv('ProjectDatasets\\top5Awards.csv', index=False)  # sums up the awarded amounts by supplier names and sorts out the top 5 companies..
 top5DataFrame = pd.DataFrame(pd.read_csv(top5File))
+
