@@ -106,3 +106,9 @@ venv.bak/
 agencies/
 tests/
 depreciated/
+getLatest.py
+kruskal.py
+map.txt
+overTendered.py
+ProjectDatasets/Expected output - weiji.txt
+tenderContractors.csv
