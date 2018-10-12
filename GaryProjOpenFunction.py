@@ -1,12 +1,40 @@
+"""
+ICT1002 2018 Trimester 1 - Python Project Description on Procurement Analyzer
+Done by: Gary Koh Zi Wei 1802005
+
+Open Functions (45 Marks):
+1) Group contractors by general location based on their postal code
+2) Lists all contractors within the general location
+
+
+Reference Link:
+Postal code numbers in Singapore
+1) https://www.ura.gov.sg/realEstateIIWeb/resources/misc/list_of_postal_districts.htm
+
+2) python functions and class:
+https://pandas.pydata.org/pandas-docs/stable/generated/pandas.DataFrame.html
+https://pandas.pydata.org/pandas-docs/stable/generated/pandas.Series.str.contains.html
+https://pandas.pydata.org/pandas-docs/version/0.23/generated/pandas.Series.str.startswith.html
+https://pandas.pydata.org/pandas-docs/version/0.23/generated/pandas.DataFrame.loc.html
+
+"""
+
+# === libraries ========================================================================================================
+
 import pandas as pd
 
-#data = pd.read_csv("C:\\Users\\Amirulamin\\Dropbox\\SIT\Year1\\Tri1\\1002ProgrammingFundamentals\\Project1\\ProjectDatasets\\listing-of-registered-contractors\\listing-of-registered-contractors.csv", dtype=str)# Read the file
+# === functions ========================================================================================================
 
 class GaryOpen:
+    """This class groups the functions together"""
     def __init__(self, data):
-        self.df = pd.DataFrame.from_records(data, columns=['company_name', 'street_name', 'postal_code'])#read company_name, street_name and postal_code from the csv file and put it in a dataframe
+        """This function creates a new heading called General Location based on the postal code of the contractors"""
+        self.df = pd.DataFrame.from_records(data, columns=['company_name', 'street_name', 'postal_code'])
+        #read company_name, street_name and postal_code from the csv file and put it in a dataframe
         self.df = self.df.drop_duplicates(subset="company_name")
-        
+
+        #get postal_code column from dataframe and if the postal starts with these certain number
+        #a new header General_Location will be printed based on the postal codes of these locations.
         self.df.loc[self.df.postal_code.astype(str).str.startswith('01'), 'General_Location'] = 'Raffles Place, Cecil, Marina, Peoples Park'
         self.df.loc[self.df.postal_code.astype(str).str.startswith('02'), 'General_Location'] = 'Raffles Place, Cecil, Marina, Peoples Park'
         self.df.loc[self.df.postal_code.astype(str).str.startswith('03'), 'General_Location'] = 'Raffles Place, Cecil, Marina, Peoples Park'
@@ -89,13 +117,16 @@ class GaryOpen:
         self.df.loc[self.df.postal_code.astype(str).str.startswith('79'), 'General_Location'] = 'Seletar'
         self.df.loc[self.df.postal_code.astype(str).str.startswith('80'), 'General_Location'] = 'Seletar'
         self.df.sort_values("postal_code", inplace=True) #sorting the companies based on their postal code
-        self.df2 = pd.DataFrame.from_records(self.df, columns=['company_name', 'General_Location']) #using a new dataframe from the created dataframe above
+        self.df2 = pd.DataFrame.from_records(self.df, columns=['company_name', 'General_Location'])
+        # using a new dataframe from the created dataframe above
         
-        
-    def Gopenfunc (self, input): #First 2 digits of postal code is used to determine their general location
-        #input = raw_input("Please State the General Location of the Contractors") #produces the result based on which general location the user has inputted
+    def Gopenfunc (self, input):
+        """This function groups the Data by the new header created called General_Location"""
+        #if button selected equals to the input, all companies with the location selected will be displayed.
         if input.lower() == "seletar":
             result = self.df2.loc[self.df2.General_Location.str.contains('Seletar')].reset_index(drop=True)
+            #df2 is the new dataframe created using the previous function
+            #.str.contains means if string contains the following string, it will return the result
             return result
         elif input.lower() == "jurong":
             result = self.df2.loc[self.df2.General_Location.str.contains('Jurong')].reset_index(drop=True)
@@ -181,13 +212,3 @@ class GaryOpen:
             return result
         else:
             return "Please enter a valid General Location!" #if user inputs anything apart from the general location. will prompt the user to input a valid general location
-
-#print GaryOpen().Gopenfunc("Amber Road")
-
-
-
-
-
-
-
-
