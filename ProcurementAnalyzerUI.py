@@ -8,7 +8,7 @@
 # 1002 Python Project
 # Name: Amirulamin Bin Mohd Osman
 # ID: 1802572
-# Description: Main/GUI file. Page was used to generate the bare GUI skeleton. Functional code within defs and classes are created by hand0
+# Description: Main/GUI file. Page was used to generate the bare GUI skeleton. Functional code within defs and classes are created by hand
 
 import sys
 import os
@@ -74,7 +74,8 @@ tenderFileRel = "ProjectDatasets/government-procurement/government-procurement-v
 tenderFilePath = os.path.join(currentFileDir, tenderFileRel)
 
 #============================== Functions ============================#
-def changeScreen(cla, dataset=None, datatype=None): #Screen Transition from screen to screen
+def changeScreen(cla, dataset=None, datatype=None): 
+    """Screen Transition from screen to screen"""
     for widget in root.winfo_children():
         widget.destroy()
 
@@ -83,17 +84,20 @@ def changeScreen(cla, dataset=None, datatype=None): #Screen Transition from scre
     else:
         eval("%s(root,dataset=dataset,datatype=datatype)" %(cla))
         
-def newWindow(cla, dataset=None, datatype=None): #Creates new window
+def newWindow(cla, dataset=None, datatype=None): 
+    """Creates new window"""
     topNew = Toplevel()
     eval("%s(topNew, dataset = dataset, datatype=datatype)" %(cla))
 
-def destroyWindow(top):
+def destroyWindow(top): 
+    """Destroys the window"""
     top.destroy()
 
 
 # ============================== Classes ==============================#
 
-class Load_CSV:  # Func 1: Opening screen to load CSV
+class Load_CSV:  
+    """ Func 1: Opening screen to load CSV """
     def __init__(self, top=None):
         '''This class configures and populates the toplevel window.
            top is the toplevel containing window.'''
@@ -204,7 +208,7 @@ class Load_CSV:  # Func 1: Opening screen to load CSV
         eval("self." + type + ".delete(0,END)")
         eval("self." + type + ".insert(0,filePath)")
 
-    def loadFiles(self):  # load the files
+    def loadFiles(self):  # Func 1: Load the files and store it in it's respective outputs.
         try:
             assert os.path.exists(self.Entry_C.get()), "Contractor File not found. Enter a valid file path."
             assert os.path.exists(self.Entry_T.get()), "Tender file not found. Enter a valid file path."
@@ -226,7 +230,10 @@ class Load_CSV:  # Func 1: Opening screen to load CSV
         except Exception as e:
             print(e)
             self.Scrolledlistbox1.insert(END, e)
-class MainPage: #Main screen with buttons to go to other functions
+            
+            
+class MainPage: 
+    """Main screen with buttons to go to other functions"""
     def __init__(self, top=None):
         '''This class configures and populates the toplevel window.
            top is the toplevel containing window.'''
@@ -240,7 +247,7 @@ class MainPage: #Main screen with buttons to go to other functions
         top.title("Procurement Analyzer")
         top.configure(background="#d9d9d9")
 
-        # Func 1: View Contractors
+        # Func 1: View Contractors Amin
         self.btn_vContractors = Button(top)
         self.btn_vContractors.place(relx=0.05, rely=0.044, height=33, width=146)
         self.btn_vContractors.configure(activebackground="#d9d9d9")
@@ -256,7 +263,7 @@ class MainPage: #Main screen with buttons to go to other functions
         self.btn_vContractors.configure(
             command=lambda: changeScreen("View_Info", dataset=contractorDict, datatype="contractor"))
 
-        # Func 1: View Tenders
+        # Func 1: View Tenders Amin
         self.btn_vTenders = Button(top)
         self.btn_vTenders.place(relx=0.05, rely=0.133, height=33, width=146)
         self.btn_vTenders.configure(activebackground="#d9d9d9")
@@ -270,7 +277,7 @@ class MainPage: #Main screen with buttons to go to other functions
         self.btn_vTenders.configure(text='''Func 1: View Tenders''')
         self.btn_vTenders.configure(command=lambda: changeScreen("View_Info", dataset=tenderDict, datatype="tender"))
 
-        # Func 2: View Agencies
+        # Func 2: View Agencies Amin
         self.btn_vAgencies = Button(top)
         self.btn_vAgencies.place(relx=0.05, rely=0.222, height=33, width=146)
         self.btn_vAgencies.configure(activebackground="#d9d9d9")
@@ -284,7 +291,7 @@ class MainPage: #Main screen with buttons to go to other functions
         self.btn_vAgencies.configure(text='''Func 2: View Agencies''')
         self.btn_vAgencies.configure(command=lambda: self.createData("agencyDict"))
 
-        # Func 3: Total Procurement
+        # Func 3: Total Procurement Gary
         self.btn_total = Button(top)
         self.btn_total.place(relx=0.05, rely=0.311, height=33, width=146)
         self.btn_total.configure(activebackground="#d9d9d9")
@@ -298,7 +305,7 @@ class MainPage: #Main screen with buttons to go to other functions
         self.btn_total.configure(text='''Func 3: Total Procurement''')
         self.btn_total.configure(command=lambda: changeScreen("View_Total"))
 
-        # Func 4
+        # Func 4: Awarded Contractors CK
         self.btn_F4 = Button(top)
         self.btn_F4.place(relx=0.05, rely=0.4, height=33, width=146)
         self.btn_F4.configure(activebackground="#d9d9d9")
@@ -310,11 +317,10 @@ class MainPage: #Main screen with buttons to go to other functions
         self.btn_F4.configure(highlightcolor="black")
         self.btn_F4.configure(pady="0")
         self.btn_F4.configure(text='''Func 4: Awarded Contractors''')
-        self.btn_F4.configure(
-            command=lambda: changeScreen("View_Info", dataset=CK1.cleanedUpDataFrame.values.tolist(),datatype="CK1"))
+        self.btn_F4.configure(command=lambda: changeScreen("View_Info", dataset=CK1.cleanedUpDataFrame.values.tolist(),datatype="CK1"))
 
 
-        # Func 5
+        # Func 5: Procurement Awarded CK
         self.btn_F5 = Button(top)
         self.btn_F5.place(relx=0.05, rely=0.489, height=33, width=146)
         self.btn_F5.configure(activebackground="#d9d9d9")
@@ -325,11 +331,11 @@ class MainPage: #Main screen with buttons to go to other functions
         self.btn_F5.configure(highlightbackground="#d9d9d9")
         self.btn_F5.configure(highlightcolor="black")
         self.btn_F5.configure(pady="0")
-        self.btn_F5.configure(text='''Func 5: procurement Award ''')
+        self.btn_F5.configure(text='''Func 5: Procurement Award ''')
         self.btn_F5.configure(
             command=lambda: changeScreen("View_Info", dataset=CK2.totalContractorsDataFrame.values.tolist(),datatype="CK2"))
 
-        # Func 6
+        # Func 6: Ministry Spending Shirlene
         self.btn_MinistrySpend = Button(top)
         self.btn_MinistrySpend.place(relx=0.05, rely=0.578, height=33, width=146)
         self.btn_MinistrySpend.configure(activebackground="#d9d9d9")
@@ -344,6 +350,7 @@ class MainPage: #Main screen with buttons to go to other functions
         self.btn_MinistrySpend.configure(
             command=lambda: changeScreen("View_Info", dataset=Shirlene.ministrySpending.values.tolist(),datatype="shirl"))
 
+        #Func 6: Category Spending Shirlene
         self.btn_CatagorySpend = Button(top)
         self.btn_CatagorySpend.place(relx=0.05, rely=0.667, height=33, width=146)
         self.btn_CatagorySpend.configure(activebackground="#d9d9d9")
@@ -377,6 +384,7 @@ class MainPage: #Main screen with buttons to go to other functions
         self.btn_Gary.configure(text='''Gary: Search by Area''')
         self.btn_Gary.configure(command=lambda: changeScreen("Dropdown_Search", datatype="area"))
 
+        #Chris: Search by Workhead
         self.btn_ChrisWorkhead = Button(top)
         self.btn_ChrisWorkhead.place(relx=0.332, rely=0.133, height=33, width=146)
         self.btn_ChrisWorkhead.configure(activebackground="#d9d9d9")
@@ -389,7 +397,8 @@ class MainPage: #Main screen with buttons to go to other functions
         self.btn_ChrisWorkhead.configure(pady="0")
         self.btn_ChrisWorkhead.configure(text='''Chris: Search by Workhead''')
         self.btn_ChrisWorkhead.configure(command=lambda: changeScreen("Dropdown_Search", datatype="workhead"))
-
+    
+        #Chris: Expired Contractors
         self.btn_ChrisExpired = Button(top)
         self.btn_ChrisExpired.place(relx=0.332, rely=0.222, height=33, width=146)
         self.btn_ChrisExpired.configure(activebackground="#d9d9d9")
@@ -402,7 +411,8 @@ class MainPage: #Main screen with buttons to go to other functions
         self.btn_ChrisExpired.configure(pady="0")
         self.btn_ChrisExpired.configure(text='''Chris: Expired Contractors''')
         self.btn_ChrisExpired.configure(command=lambda: changeScreen("View_Expired"))
-
+        
+        #Amin: Over Tender Limit
         self.btn_overtendered = Button(top)
         self.btn_overtendered.place(relx=0.332, rely=0.311, height=33, width=146)
         self.btn_overtendered.configure(activebackground="#d9d9d9")
@@ -417,6 +427,8 @@ class MainPage: #Main screen with buttons to go to other functions
         self.btn_overtendered.configure(
             command=lambda: changeScreen("View_Info", dataset=Amin.overtendered(tenderDict, contractorDict),datatype="amin"))
 
+            
+        #Amin: Validate Contractor
         self.btn_latestContractor = Button(top)
         self.btn_latestContractor.place(relx=0.332, rely=0.4, height=33, width=146)
         self.btn_latestContractor.configure(activebackground="#d9d9d9")
@@ -430,6 +442,7 @@ class MainPage: #Main screen with buttons to go to other functions
         self.btn_latestContractor.configure(text='''Amin: Validate Contractor''')
         self.btn_latestContractor.configure(command=lambda: changeScreen("Dropdown_Search", datatype="amin"))
 
+        #WeiJi: Min/Max
         self.btn_minmax = Button(top)
         self.btn_minmax.place(relx=0.332, rely=0.489, height=33, width=146)
         self.btn_minmax.configure(activebackground="#d9d9d9")
@@ -440,8 +453,10 @@ class MainPage: #Main screen with buttons to go to other functions
         self.btn_minmax.configure(highlightbackground="#d9d9d9")
         self.btn_minmax.configure(highlightcolor="black")
         self.btn_minmax.configure(pady="0")
-        self.btn_minmax.configure(text='''WeiJi: Min/Max''')
+        self.btn_minmax.configure(text='''WeiJi: Min/Max Tenders''')
         self.btn_minmax.configure(command=lambda: changeScreen("View_Info", dataset=Weiji.bidamount(tenderDict), datatype="weiji"))
+        
+        #Weiji:Contractor Description
         self.btn_contractordesc = Button(top)
         self.btn_contractordesc.place(relx=0.332, rely=0.578, height=33, width=146)
         self.btn_contractordesc.configure(activebackground="#d9d9d9")
@@ -454,9 +469,10 @@ class MainPage: #Main screen with buttons to go to other functions
         self.btn_contractordesc.configure(pady="0")
         self.btn_contractordesc.configure(text='''Weiji:Contractor Description''')
         self.btn_contractordesc.configure(
-            command=lambda: changeScreen("View_Info", dataset=Weiji.contractordesc(contractorFilePath),
-                                         datatype="weiji2"))
+            command=lambda: changeScreen("View_Info", dataset=Weiji.contractordesc(contractorFilePath),datatype="weiji2"))
 
+            
+        #Weiji:Contractor Frequency
         self.btn_agencyFreq = Button(top)
         self.btn_agencyFreq.place(relx=0.332, rely=0.667, height=33, width=146)
         self.btn_agencyFreq.configure(activebackground="#d9d9d9")
@@ -472,6 +488,7 @@ class MainPage: #Main screen with buttons to go to other functions
             Amin.getAgencyProcurement(tenderDict), tenderDict), datatype="weiji"))
 
     def createData(self, datatype):
+        """Given a datatype, creates and stores the dataset into memory"""
         evals = {"agencyDict":["View_Info_Agency", "Amin.getAgencyProcurement(tenderDict)"], 
                 "weiji2": ["View_Info", "Weiji.contractordesc(contractorFilePath)"]}
         global dataDict
@@ -482,7 +499,8 @@ class MainPage: #Main screen with buttons to go to other functions
         changeScreen(cla, dataset=dataset, datatype=datatype)
         
         
-class View_Info: #General Purpose Info box. Give a dataset & (datatype). sendActive() will send a list of items for detail
+class View_Info: 
+    """General Purpose Info box. Give a dataset & (datatype). sendActive() will send a list of items for detail"""
     def __init__(self, top=None, dataset=None, datatype=None):
         '''This class configures and populates the toplevel window.
            top is the toplevel containing window.'''
@@ -603,6 +621,7 @@ class View_Info: #General Purpose Info box. Give a dataset & (datatype). sendAct
 
 
     def top5(self):
+        """Show the top 5 Contractors"""
         self.Scrolledlistbox1.configure(state="normal")
         self.Scrolledlistbox1.delete(1, END)
         dataset = CK2.top5DataFrame.values.tolist()
@@ -611,6 +630,7 @@ class View_Info: #General Purpose Info box. Give a dataset & (datatype). sendAct
         self.Scrolledlistbox1.configure(state="disabled")
 
     def sendActive(self):
+        """Sends the current active value to another window"""
         if self.datatype == "amin":
             key = self.Scrolledlistbox1.get(ACTIVE)[:17]
             dataObj = tenderDict[key]
@@ -650,7 +670,8 @@ class View_Info: #General Purpose Info box. Give a dataset & (datatype). sendAct
             newWindow(cla, data)
 
 
-class View_Info_Agency:  # Func 2:View Agency procurement info
+class View_Info_Agency:  
+    """View Agency procurement infobox. Give a Window, (dataset) & (datatype)"""
     def __init__(self, top=None, dataset=None, datatype=None):
         '''This class configures and populates the toplevel window.
            top is the toplevel containing window.'''
@@ -771,7 +792,7 @@ class View_Info_Agency:  # Func 2:View Agency procurement info
             self.btn_access.configure(text='''Access''')
             self.btn_access.configure(command=lambda:self.sendActive())
 
-    def viewTenders(self):
+    def viewTenders(self): #Based on current active selection, send to 
         self.ScrolledlistboxTenders.delete(0, END)
         active = self.ScrolledlistboxAgency.get(ACTIVE)
         if self.datatype == "weiji":
@@ -1326,7 +1347,7 @@ class View_Contractor: #Shows Contractor Details
         self.btn_close.configure(command=lambda: destroyWindow(top))
 
         
-class View_ContractorSpec: #Shows difference in Contractor details. Midified View_Contractor class
+class View_ContractorSpec: #Shows difference in Contractor details. Modified View_Contractor class
     def __init__(self, top=None, dataset=None, datatype=None):
         '''This class configures and populates the toplevel window.
            top is the toplevel containing window.'''

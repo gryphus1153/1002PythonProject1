@@ -21,7 +21,8 @@ def getFilePath(message): #UNUSED
         except Exception as e:
             print(e)
             
-def processContractors(contractorFilePath): #Read contractors from file, creates a Contractor object. Returns contractorDict. key = company_name
+def processContractors(contractorFilePath): 
+    """Read contractors from file, creates a Contractor object. Returns contractorDict. key = company_name"""
     with open(contractorFilePath) as contractorFile:
         reader = csv.DictReader(contractorFile,dialect="excel")
         contractorDict = {}
@@ -42,7 +43,8 @@ def processContractors(contractorFilePath): #Read contractors from file, creates
     print("Contractor Listing Loaded")
     return contractorDict
     
-def processTenders(tenderFilePath): #Read tenders from file, creates a Tender object. Returns tenderDict. key = tender_no
+def processTenders(tenderFilePath): 
+    """Read tenders from file, creates a Tender object. Returns tenderDict. key = tender_no"""
     with open(tenderFilePath) as tenderFile:
         tenderDict = {}
         reader = csv.DictReader(tenderFile, dialect = "excel")
@@ -59,7 +61,8 @@ def processTenders(tenderFilePath): #Read tenders from file, creates a Tender ob
     print("Tender Listing Loaded")
     return tenderDict
 
-def getAgencyProcurement(tenderDict): #gets the procurement info of each agency. Returns agencyDict. key = agency name
+def getAgencyProcurement(tenderDict): 
+    """gets the procurement info of each agency. Returns agencyDict. key = agency name"""
     agencyDict = {}
     for tenderNo in tenderDict:
         agency = tenderDict[tenderNo].agency
@@ -70,7 +73,8 @@ def getAgencyProcurement(tenderDict): #gets the procurement info of each agency.
     print("Agencies loaded")
     return agencyDict
 
-def procurementToFile(agencyDict): #Writes each agencies tender info into individual files
+def procurementToFile(agencyDict): 
+    """Writes each agencies tender info into individual files"""
     agencyDir = currentFileDir + "\\Agencies"
     
     if not os.path.exists(agencyDir):
@@ -82,7 +86,8 @@ def procurementToFile(agencyDict): #Writes each agencies tender info into indivi
             for item in agencyDict[agency]:
                 agencyFile.write(item + "\n")
                 
-def overtendered(tenderDict, contractorDict): #Gets the tenders and contractors where the contractors are over their respective tendering limit
+def overtendered(tenderDict, contractorDict): 
+    """Gets the tenders and contractors where the contractors are over their respective tendering limit"""
     overtendered = {}
     for tender in tenderDict:
         suppliers = tenderDict[tender].supplierAwarded
@@ -112,7 +117,8 @@ def total_Proc(agencyDict): #UNUSED
         totalproc[agency] = str(total)
     return totalproc
      
-def getLatest(uen): #Scrapes HTML from BCA to get the latest listing information about a company if it exists returns a contractor object
+def getLatest(uen): 
+    """Scrapes HTML from BCA to get the latest listing information about a company. if it exists, returns a contractor object"""
     workheadGrade = {}
     url = "https://www.bca.gov.sg/BCADirectory/Company/Details/"
     headers = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.95 Safari/537.36'}
@@ -142,7 +148,7 @@ def getLatest(uen): #Scrapes HTML from BCA to get the latest listing information
         additional_info = None
             
         contractor = PAClasses.Contractor(company_name, uen_no, workheadGrade, additional_info, expiry_date, address, tel_no)
-        return contractor #returns a contractor object9
+        return contractor #returns a contractor object
     except Exception as e:
         print e
         return "Page could not be reached/connection has timed out"
