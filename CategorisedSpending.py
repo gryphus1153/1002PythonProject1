@@ -99,8 +99,8 @@ def spendingByCategory(tenderCSV):
 # main method for testing purposes.
 
 
-ministrySpending = spendingByMinistry(tenderFile)
-categorySpending = spendingByCategory(tenderFile)
+#ministrySpending = spendingByMinistry(tenderFile)
+#categorySpending = spendingByCategory(tenderFile)
 
 #print(ministrySpending.values.tolist())
 

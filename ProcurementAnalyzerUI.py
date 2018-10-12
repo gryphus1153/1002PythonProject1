@@ -55,8 +55,8 @@ from GaryProjOpenFunction import GaryOpen
 import chrisProject as Chris
 import CategorisedSpending as Shirlene
 import function_weiji as Weiji
-import function4 as CK1
-import function5 as CK2
+from function4 import CK1
+from function5 import CK2
 
 contractorDict = {}
 tenderDict = {}
@@ -220,18 +220,24 @@ class Load_CSV: #Func 1: Opening screen to load CSV
             assert ".csv" in self.Entry_C.get(), "Contractor file is not a .csv file"
             assert ".csv" in self.Entry_T.get(), "Tender file is not a .csv file"
 
+            global contractorFilePath
+            global tenderFilePath
+            contractorFilePath = self.Entry_C.get()
+            tenderFilePath = self.Entry_T.get()
+            
+            
             global contractorDict
             global tenderDict
             global contractorPandas
             global tenderPandas
             global dataDict
 
-            contractorDict = Amin.processContractors(self.Entry_C.get())
-            tenderDict = Amin.processTenders(self.Entry_T.get())
-            contractorPandas = pd.read_csv(self.Entry_C.get(), low_memory=False,dtype=str)
-            tenderPandas = pd.read_csv(self.Entry_T.get(), low_memory=False,dtype=str)
+            contractorDict = Amin.processContractors(contractorFilePath)
+            tenderDict = Amin.processTenders(tenderFilePath)
+            contractorPandas = pd.read_csv(contractorFilePath, low_memory=False,dtype=str)
+            tenderPandas = pd.read_csv(tenderFilePath, low_memory=False,dtype=str)
             
-            dataDict["chris"] = Chris.sortBy_workheads_grade_expiry(Chris.csvClass().read_csv(self.Entry_C.get()))
+            dataDict["chris"] = Chris.sortBy_workheads_grade_expiry(Chris.csvClass().read_csv(contractorFilePath))
             
             changeScreen("MainPage")
         except Exception as e:
@@ -324,7 +330,7 @@ class MainPage: #Main screen with buttons to go to other functions
         self.btn_F4.configure(highlightcolor="black")
         self.btn_F4.configure(pady="0")
         self.btn_F4.configure(text='''Func 4: Awarded Contractors''')
-        self.btn_F4.configure(command=lambda: changeScreen("View_Info", dataset=CK1.cleanedUpDataFrame.values.tolist(),datatype="CK1"))
+        self.btn_F4.configure(command=lambda: changeScreen("View_Info", dataset=CK1(tenderFilePath, contractorFilePath).cleanedUpDataFrame.values.tolist(),datatype="CK1"))
 
 
         # Func 5: Procurement Awarded CK
@@ -340,7 +346,7 @@ class MainPage: #Main screen with buttons to go to other functions
         self.btn_F5.configure(pady="0")
         self.btn_F5.configure(text='''Func 5: Procurement Award ''')
         self.btn_F5.configure(
-            command=lambda: changeScreen("View_Info", dataset=CK2.totalContractorsDataFrame.values.tolist(),datatype="CK2"))
+            command=lambda: changeScreen("View_Info", dataset=CK2(tenderFilePath, contractorFilePath).totalContractorsDataFrame.values.tolist(),datatype="CK2"))
 
         # Func 6: Ministry Spending Shirlene
         self.btn_MinistrySpend = Button(top)
@@ -355,7 +361,7 @@ class MainPage: #Main screen with buttons to go to other functions
         self.btn_MinistrySpend.configure(pady="0")
         self.btn_MinistrySpend.configure(text='''Func 6: Ministry Spending''')
         self.btn_MinistrySpend.configure(
-            command=lambda: changeScreen("View_Info", dataset=Shirlene.ministrySpending.values.tolist(),datatype="shirl"))
+            command=lambda: changeScreen("View_Info", dataset=Shirlene.spendingByMinistry(tenderFilePath).values.tolist(),datatype="shirl"))
 
         #Func 6: Category Spending Shirlene
         self.btn_CatagorySpend = Button(top)
@@ -370,7 +376,7 @@ class MainPage: #Main screen with buttons to go to other functions
         self.btn_CatagorySpend.configure(pady="0")
         self.btn_CatagorySpend.configure(text='''Func 6: Category Spending''')
         self.btn_CatagorySpend.configure(
-            command=lambda: changeScreen("View_Info", dataset=Shirlene.categorySpending.values.tolist(),datatype="shirl"))
+            command=lambda: changeScreen("View_Info", dataset=Shirlene.spendingByCategory(tenderFilePath).values.tolist(),datatype="shirl"))
 
         # SEPERATOR
         self.TSeparator1 = ttk.Separator(top)
@@ -645,7 +651,7 @@ class View_Info: #General Purpose Info box. Give a dataset & (datatype). sendAct
         """Show the top 5 Contractors"""
         self.Scrolledlistbox1.configure(state="normal")
         self.Scrolledlistbox1.delete(1, END)
-        dataset = CK2.top5DataFrame.values.tolist()
+        dataset = CK2(tenderFilePath, contractorFilePath).top5DataFrame.values.tolist()
         for row in dataset:
             self.Scrolledlistbox1.insert(END, "%-50.50s : $%s" % (row[0], row[1]))
         self.Scrolledlistbox1.configure(state="disabled")
