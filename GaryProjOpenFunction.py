@@ -144,7 +144,7 @@ class GaryOpen:
         elif input.lower() == "lim chu kang" or input.lower() == "tengah":
             result = self.df2.loc[self.df2.General_Location.str.contains('Lim Chu Kang, Tengah')].reset_index(drop=True)
             return result
-        elif input.lower() == "hillview" or input.lower() == "bukit panjang" or input.lower() == "choa chu kang":
+        elif input.lower() == "hillview" or input.lower() == "bukit panjang" or input.lower() == "choa chu kang" or input.lower() == "dairy farm":
             result = self.df2.loc[self.df2.General_Location.str.contains('Hillview, Dairy Farm, Bukit Panjang, Choa Chu Kang')].reset_index(drop=True)
             return result
         elif input.lower() == "upper bukit timah" or input.lower() == "clementi park" or input.lower() == "ulu pandan":
@@ -207,7 +207,7 @@ class GaryOpen:
         elif input.lower() == "anson" or input.lower() == "tanjong pagar":
             result = self.df2.loc[self.df2.General_Location.str.contains('Anson, Tanjong Pagar')].reset_index(drop=True)
             return result
-        elif input.lower() == "raffles place" or input.lower() == "cecil" or input.lower() == "peoples park":
+        elif input.lower() == "raffles place" or input.lower() == "cecil" or input.lower() == "people's park" or input.lower() == "marina":
             result = self.df2.loc[self.df2.General_Location.str.contains('Raffles Place, Cecil, Marina, Peoples Park')].reset_index(drop=True)
             return result
         else:

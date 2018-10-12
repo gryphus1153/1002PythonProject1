@@ -23,9 +23,11 @@ except ImportError:
 try: #Import ttk & tkFileDialog
     import ttk
     import tkFileDialog
+    
 
     py3 = False
 except ImportError:
+
     import tkinter.ttk as ttk
     from tkinter import filedialog as tkFileDialog
 
@@ -38,6 +40,7 @@ def vp_start_gui():  # INIT
     '''Starting point when module is the main routine.'''
     global val, w, root
     root = Tk()
+    root.iconbitmap(bitmaploc)
     ProcurementAnalyzerUI_support.set_Tk_var()
     top = Load_CSV(root)
     ProcurementAnalyzerUI_support.init(root, top)
@@ -64,6 +67,7 @@ tenderPandas = None
 dataDict = {}  # stores the general purpose data sets
 
 currentFileDir = os.path.dirname(__file__)
+bitmaploc = os.path.join(currentFileDir, "Icon.ico")
 
 # default contractor file info
 contractorFileRel = "ProjectDatasets/listing-of-registered-contractors/listing-of-registered-contractors.csv"
@@ -87,6 +91,7 @@ def changeScreen(cla, dataset=None, datatype=None):
 def newWindow(cla, dataset=None, datatype=None): 
     """Creates new window"""
     topNew = Toplevel()
+    topNew.iconbitmap(bitmaploc)
     eval("%s(topNew, dataset = dataset, datatype=datatype)" %(cla))
 
 def destroyWindow(top): 
@@ -96,7 +101,7 @@ def destroyWindow(top):
 
 # ============================== Classes ==============================#
 
-class Load_CSV:  
+class Load_CSV: #Func 1: Opening screen to load CSV
     """ Func 1: Opening screen to load CSV """
     def __init__(self, top=None):
         '''This class configures and populates the toplevel window.
@@ -224,15 +229,17 @@ class Load_CSV:
             contractorDict = Amin.processContractors(self.Entry_C.get())
             tenderDict = Amin.processTenders(self.Entry_T.get())
             contractorPandas = pd.read_csv(self.Entry_C.get(), low_memory=False,dtype=str)
-            tenderPandas = pd.read_csv(self.Entry_T.get(), low_memory=False,dtype=str) 
+            tenderPandas = pd.read_csv(self.Entry_T.get(), low_memory=False,dtype=str)
+            
             dataDict["chris"] = Chris.sortBy_workheads_grade_expiry(Chris.csvClass().read_csv(self.Entry_C.get()))
+            
             changeScreen("MainPage")
         except Exception as e:
             print(e)
             self.Scrolledlistbox1.insert(END, e)
             
             
-class MainPage: 
+class MainPage: #Main screen with buttons to go to other functions
     """Main screen with buttons to go to other functions"""
     def __init__(self, top=None):
         '''This class configures and populates the toplevel window.
@@ -484,9 +491,22 @@ class MainPage:
         self.btn_agencyFreq.configure(highlightcolor="black")
         self.btn_agencyFreq.configure(pady="0")
         self.btn_agencyFreq.configure(text='''Weiji:Contractor Frequency''')
-        self.btn_agencyFreq.configure(command=lambda: changeScreen("View_Info_Agency", dataset=Weiji.agencyFreq(
-            Amin.getAgencyProcurement(tenderDict), tenderDict), datatype="weiji"))
+        self.btn_agencyFreq.configure(command=lambda: changeScreen("View_Info_Agency", dataset=Weiji.agencyFreq(Amin.getAgencyProcurement(tenderDict), tenderDict), datatype="weiji"))
 
+        self.btn_close = Button(top)
+        self.btn_close.place(relx=0.8, rely=0.05, height=33, width=78)
+        self.btn_close.configure(activebackground="#d9d9d9")
+        self.btn_close.configure(activeforeground="#000000")
+        self.btn_close.configure(background="#d9d9d9")
+        self.btn_close.configure(disabledforeground="#a3a3a3")
+        self.btn_close.configure(foreground="#000000")
+        self.btn_close.configure(highlightbackground="#d9d9d9")
+        self.btn_close.configure(highlightcolor="black")
+        self.btn_close.configure(pady="0")
+        self.btn_close.configure(text='''Close''')
+        self.btn_close.configure(command=lambda:destroyWindow(top))
+        
+        
     def createData(self, datatype):
         """Given a datatype, creates and stores the dataset into memory"""
         evals = {"agencyDict":["View_Info_Agency", "Amin.getAgencyProcurement(tenderDict)"], 
@@ -499,7 +519,7 @@ class MainPage:
         changeScreen(cla, dataset=dataset, datatype=datatype)
         
         
-class View_Info: 
+class View_Info: #General Purpose Info box. Give a dataset & (datatype). sendActive() will send a list of items for detail
     """General Purpose Info box. Give a dataset & (datatype). sendActive() will send a list of items for detail"""
     def __init__(self, top=None, dataset=None, datatype=None):
         '''This class configures and populates the toplevel window.
@@ -670,7 +690,7 @@ class View_Info:
             newWindow(cla, data)
 
 
-class View_Info_Agency:  
+class View_Info_Agency:  #View Agency procurement infobox. Give a Window, (dataset) & (datatype)
     """View Agency procurement infobox. Give a Window, (dataset) & (datatype)"""
     def __init__(self, top=None, dataset=None, datatype=None):
         '''This class configures and populates the toplevel window.
@@ -816,6 +836,7 @@ class View_Info_Agency:
 
             
 class View_Total: #Func 3:View total amount of procurement. Modified View_Info class
+    """Func 3:View total amount of procurement. Modified View_Info class"""
     def __init__(self, top=None, dataset=None, datatype=None):
         '''This class configures and populates the toplevel window.
            top is the toplevel containing window.'''
@@ -899,7 +920,8 @@ class View_Total: #Func 3:View total amount of procurement. Modified View_Info c
         self.Scrolledlistbox1.configure(state="disabled")
 
 
-class Dropdown_Search: #General purpose Search box. Similar to a View_Info box but with a fixed search function to reduce the amount of datavalidation required
+class Dropdown_Search: #General purpose Search box. Similar to a View_Info box but with a prepopulated dropdown box to reduce the amount of data validation required
+    """General purpose Search box. Similar to a View_Info box but with a prepopulated dropdown box to reduce the amount of data validation required"""
     def __init__(self, top=None, dataset=None, datatype=None):
         '''This class configures and populates the toplevel window.
            top is the toplevel containing window.'''
@@ -924,6 +946,7 @@ class Dropdown_Search: #General purpose Search box. Similar to a View_Info box b
         top.configure(highlightcolor="black")
         self.datatype = datatype
 
+        #Back Button
         self.btn_back = Button(top)
         self.btn_back.place(relx=0.033, rely=0.889, height=33, width=83)
         self.btn_back.configure(activebackground="#d9d9d9")
@@ -937,6 +960,7 @@ class Dropdown_Search: #General purpose Search box. Similar to a View_Info box b
         self.btn_back.configure(text='''Back''')
         self.btn_back.configure(command=lambda: changeScreen("MainPage"))
 
+        #Scrolled List box to show the selected data
         self.Scrolledlistbox1 = ScrolledListBox(top)
         self.Scrolledlistbox1.place(relx=0.033, rely=0.044, relheight=0.816
                                     , relwidth=0.925)
@@ -950,6 +974,7 @@ class Dropdown_Search: #General purpose Search box. Similar to a View_Info box b
         self.Scrolledlistbox1.configure(selectforeground="black")
         self.Scrolledlistbox1.configure(width=10)
 
+        #Access button to show information
         if self.datatype != "amin":
             self.btn_access = Button(top)
             self.btn_access.place(relx=0.817, rely=0.889, height=33, width=83)
@@ -964,6 +989,7 @@ class Dropdown_Search: #General purpose Search box. Similar to a View_Info box b
             self.btn_access.configure(text='''Access''')
             self.btn_access.configure(command=lambda: self.sendActive())
 
+        #Dropdown/Combo box for the input selection. Prepopulated to reduce amount of data validation required
         self.TCombobox1 = ttk.Combobox(top)
         self.TCombobox1.place(relx=0.308, rely=0.889, relheight=0.058
                               , relwidth=0.312)
@@ -985,7 +1011,8 @@ class Dropdown_Search: #General purpose Search box. Similar to a View_Info box b
             fill = contractorDict.keys()
 
         self.TCombobox1.configure(values=sorted(fill))
-
+        
+        #Search Button
         self.btn_search = Button(top)
         self.btn_search.place(relx=0.633, rely=0.889, height=33, width=56)
         self.btn_search.configure(activebackground="#d9d9d9")
@@ -999,7 +1026,7 @@ class Dropdown_Search: #General purpose Search box. Similar to a View_Info box b
         self.btn_search.configure(text='''Search''')
         self.btn_search.configure(command=lambda: self.getData())
 
-    def getData(self):
+    def getData(self): #Populate the Listbox
         selection = self.TCombobox1.get()
         if self.datatype == "area":
 
@@ -1045,6 +1072,7 @@ class Dropdown_Search: #General purpose Search box. Similar to a View_Info box b
 
 
 class View_Expired: #Chris :View Expired Contractors. Modified View_Info class
+    """Chris :View Expired Contractors. Modified View_Info class"""
     def __init__(self, top=None, dataset=None, datatype=None):
         '''This class configures and populates the toplevel window.
            top is the toplevel containing window.'''
@@ -1150,6 +1178,7 @@ class View_Expired: #Chris :View Expired Contractors. Modified View_Info class
 
         
 class View_Contractor: #Shows Contractor Details
+    """Shows Contractor Details"""
     def __init__(self, top=None, dataset=None, datatype=None):
         '''This class configures and populates the toplevel window.
            top is the toplevel containing window.'''
@@ -1348,6 +1377,7 @@ class View_Contractor: #Shows Contractor Details
 
         
 class View_ContractorSpec: #Shows difference in Contractor details. Modified View_Contractor class
+    """Shows difference in Contractor details. Modified View_Contractor class"""
     def __init__(self, top=None, dataset=None, datatype=None):
         '''This class configures and populates the toplevel window.
            top is the toplevel containing window.'''
@@ -1579,6 +1609,7 @@ class View_ContractorSpec: #Shows difference in Contractor details. Modified Vie
 
 
 class View_Tender: #Shows the Tender Details
+    """Shows the Tender Details"""
     def __init__(self, top=None, dataset=None, datatype=None):
         '''This class configures and populates the toplevel window.
            top is the toplevel containing window.'''
