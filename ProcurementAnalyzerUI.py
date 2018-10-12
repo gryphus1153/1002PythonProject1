@@ -1592,11 +1592,7 @@ class View_ContractorSpec: #Shows difference in Contractor details. Modified Vie
             for key in workheadDict:
                 input = "%-33.33s ==> %-33.33s" %(workheadDict[key][0], workheadDict[key][1])
                 self.txt_workheads.insert(END, input.replace("$2147483647", "Unlimited") + "\n")
-            
-        for workhead in dataset[1][5]:
-            limit = Amin.gradeDict[dataset[1][5][workhead]]
-            self.txt_workheads.insert(END, workhead + " : " + dataset[1][5][workhead] + " : $" + str(limit) + "\n")
-        if dataset[0][5] != dataset[1][5]:
+                
             self.txt_workheads.configure(foreground="red")
         self.txt_workheads.configure(state="disabled")
 
