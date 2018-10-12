@@ -597,6 +597,7 @@ class View_Info: #General Purpose Info box. Give a dataset & (datatype). sendAct
             for key in self.dataset:
                 self.Scrolledlistbox1.insert(END, "%-17s : $%-12s : $%-9s" % (
                 key, self.dataset[key][0], self.dataset[key][1]))
+            self.Scrolledlistbox1.activate(1)
 
         elif self.datatype == "weiji2":
             for row in self.dataset:
