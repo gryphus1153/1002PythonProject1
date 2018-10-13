@@ -1225,7 +1225,7 @@ class View_Contractor: #Shows Contractor Details
 
         top.geometry("600x450")
         if windowName == None:
-             top.title("View Contractor")
+             top.title("Contractor Details")
         else:
             top.title(windowName)
        
@@ -1427,7 +1427,7 @@ class View_ContractorSpec: #Shows difference in Contractor details. Modified Vie
         _ana2color = '#d9d9d9'  # X11 color: 'gray85'
 
         top.geometry("600x450")
-        top.title("View Contractor")
+        top.title("Contractor Details (Comparison)")
         top.configure(background="#d9d9d9")
         top.configure(highlightbackground="#d9d9d9")
         top.configure(highlightcolor="black")
@@ -1655,7 +1655,7 @@ class View_Tender: #Shows the Tender Details
         _ana2color = '#d9d9d9'  # X11 color: 'gray85'
 
         top.geometry("600x450")
-        top.title("View Tender")
+        top.title("Tender Details")
         top.configure(background="#d9d9d9")
         top.configure(highlightbackground="#d9d9d9")
         top.configure(highlightcolor="black")
