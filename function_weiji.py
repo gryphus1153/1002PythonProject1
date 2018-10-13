@@ -76,6 +76,8 @@ def agencyFreq(agencyDict, tenderDict):
             for supplier in tenderDict[tender].supplierAwarded:
                 if supplier in supplierDict:
                     supplierDict[supplier] += 1
+                elif supplier == "na":
+                    pass
                 else:
                     supplierDict[supplier] = 1
         agencyFreq[agency] = supplierDict            
