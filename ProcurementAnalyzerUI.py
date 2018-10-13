@@ -483,7 +483,7 @@ class MainPage: #Main screen with buttons to go to other functions
         self.btn_contractordesc.configure(pady="0")
         self.btn_contractordesc.configure(text='''Weiji:Contractor Description''')
         self.btn_contractordesc.configure(
-            command=lambda: changeScreen("View_Info", dataset=Weiji.contractordesc(contractorFilePath),datatype="weiji2", windowName="Contractor Description"))
+            command=lambda: self.createData("weiji2", windowName="Contractor Description"))
 
             
         #Weiji:Contractor Frequency
@@ -514,7 +514,7 @@ class MainPage: #Main screen with buttons to go to other functions
         self.btn_close.configure(command=lambda:destroyWindow(top))
         
         
-    def createData(self, datatype):
+    def createData(self, datatype, windowName = None):
         """Given a datatype, creates and stores the dataset into memory"""
         evals = {"agencyDict":["View_Info_Agency", "Amin.getAgencyProcurement(tenderDict)"], 
                 "weiji2": ["View_Info", "Weiji.contractordesc(contractorFilePath)"]}
@@ -523,7 +523,7 @@ class MainPage: #Main screen with buttons to go to other functions
             dataDict[datatype] = eval(evals[datatype][1])
         dataset = dataDict[datatype]
         cla = evals[datatype][0]
-        changeScreen(cla, dataset=dataset, datatype=datatype)
+        changeScreen(cla, dataset=dataset, datatype=datatype, windowName = windowName)
         
         
 class View_Info: #General Purpose Info box. Give a dataset & (datatype). sendActive() will send a list of items for detail
