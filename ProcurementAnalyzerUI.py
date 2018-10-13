@@ -303,7 +303,7 @@ class MainPage: #Main screen with buttons to go to other functions
         self.btn_vAgencies.configure(highlightcolor="black")
         self.btn_vAgencies.configure(pady="0")
         self.btn_vAgencies.configure(text='''Func 2: View Agencies''')
-        self.btn_vAgencies.configure(command=lambda: self.createData("agencyDict"))
+        self.btn_vAgencies.configure(command=lambda: self.createData("agencyDict", windowName="View Agencies"))
 
         # Func 3: Total Procurement Gary
         self.btn_total = Button(top)
