@@ -1,12 +1,12 @@
 import pandas as pd
 
-def bidamount(biddata):  # primary key tender no, amount awarded show range of values for bids
+def bidamount(biddata):  # primary key tender no, amount awarded show range of values for bids # GOT to rewrite this set as list then get min max
     minmaxdict = {}
     for tender in biddata:
         if biddata[tender].tender_detail_status != "Awarded to no Supplier":
-            minimum = min(biddata[tender].supplierAwarded.values())
-            maximum = max(biddata[tender].supplierAwarded.values())
-            minmaxdict[biddata[tender].tender_no] = [minimum, maximum]
+            list = biddata[tender].supplierAwarded.values()
+        newlist = map(float, list)
+        minmaxdict[biddata[tender].tender_no] = [min(newlist), max(newlist)]
 
     #for key, val in minmaxdict.items():
     #    print key, val
@@ -76,8 +76,6 @@ def agencyFreq(agencyDict, tenderDict):
             for supplier in tenderDict[tender].supplierAwarded:
                 if supplier in supplierDict:
                     supplierDict[supplier] += 1
-                elif supplier == "na":
-                    pass
                 else:
                     supplierDict[supplier] = 1
         agencyFreq[agency] = supplierDict            
