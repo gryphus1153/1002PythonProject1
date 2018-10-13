@@ -78,7 +78,7 @@ tenderFileRel = "ProjectDatasets/government-procurement/government-procurement-v
 tenderFilePath = os.path.join(currentFileDir, tenderFileRel)
 
 #============================== Functions ============================#
-def changeScreen(cla, dataset=None, datatype=None): 
+def changeScreen(cla, dataset=None, datatype=None, windowName=None): 
     """Screen Transition from screen to screen"""
     for widget in root.winfo_children():
         widget.destroy()
@@ -86,13 +86,13 @@ def changeScreen(cla, dataset=None, datatype=None):
     if cla == "MainPage":
         MainPage(root)
     else:
-        eval("%s(root,dataset=dataset,datatype=datatype)" %(cla))
+        eval("%s(root,dataset=dataset,datatype=datatype, windowName=windowName)" %(cla))
         
-def newWindow(cla, dataset=None, datatype=None): 
+def newWindow(cla, dataset=None, datatype=None, windowName=None): 
     """Creates new window"""
     topNew = Toplevel()
     topNew.iconbitmap(bitmaploc)
-    eval("%s(topNew, dataset = dataset, datatype=datatype)" %(cla))
+    eval("%s(topNew, dataset = dataset, datatype=datatype, windowName=windowName)" %(cla))
 
 def destroyWindow(top): 
     """Destroys the window"""
@@ -219,6 +219,7 @@ class Load_CSV: #Func 1: Opening screen to load CSV
             assert os.path.exists(self.Entry_T.get()), "Tender file not found. Enter a valid file path."
             assert ".csv" in self.Entry_C.get(), "Contractor file is not a .csv file"
             assert ".csv" in self.Entry_T.get(), "Tender file is not a .csv file"
+            assert "awardedRegisteredContractors" not in self.Entry_T.get(), "Please select the correct files"
 
             global contractorFilePath
             global tenderFilePath
@@ -241,8 +242,8 @@ class Load_CSV: #Func 1: Opening screen to load CSV
             
             changeScreen("MainPage")
         except Exception as e:
-            print(e)
-            self.Scrolledlistbox1.insert(END, e)
+            print e
+            self.Scrolledlistbox1.insert(END, "Please select the correct files")
             
             
 class MainPage: #Main screen with buttons to go to other functions
@@ -274,7 +275,7 @@ class MainPage: #Main screen with buttons to go to other functions
         self.btn_vContractors.configure(text='''Func 1: View Contractors''')
         self.btn_vContractors.configure(width=146)
         self.btn_vContractors.configure(
-            command=lambda: changeScreen("View_Info", dataset=contractorDict, datatype="contractor"))
+            command=lambda: changeScreen("View_Info", dataset=contractorDict, datatype="contractor", windowName="View Contractors"))
 
         # Func 1: View Tenders Amin
         self.btn_vTenders = Button(top)
@@ -288,7 +289,7 @@ class MainPage: #Main screen with buttons to go to other functions
         self.btn_vTenders.configure(highlightcolor="black")
         self.btn_vTenders.configure(pady="0")
         self.btn_vTenders.configure(text='''Func 1: View Tenders''')
-        self.btn_vTenders.configure(command=lambda: changeScreen("View_Info", dataset=tenderDict, datatype="tender"))
+        self.btn_vTenders.configure(command=lambda: changeScreen("View_Info", dataset=tenderDict, datatype="tender", windowName="View Tenders"))
 
         # Func 2: View Agencies Amin
         self.btn_vAgencies = Button(top)
@@ -330,7 +331,7 @@ class MainPage: #Main screen with buttons to go to other functions
         self.btn_F4.configure(highlightcolor="black")
         self.btn_F4.configure(pady="0")
         self.btn_F4.configure(text='''Func 4: Awarded Contractors''')
-        self.btn_F4.configure(command=lambda: changeScreen("View_Info", dataset=CK1(tenderFilePath, contractorFilePath).cleanedUpDataFrame.values.tolist(),datatype="CK1"))
+        self.btn_F4.configure(command=lambda: changeScreen("View_Info", dataset=CK1(tenderFilePath, contractorFilePath).cleanedUpDataFrame.values.tolist(),datatype="CK1", windowName="Awarded Contractors"))
 
 
         # Func 5: Procurement Awarded CK
@@ -346,7 +347,7 @@ class MainPage: #Main screen with buttons to go to other functions
         self.btn_F5.configure(pady="0")
         self.btn_F5.configure(text='''Func 5: Procurement Award ''')
         self.btn_F5.configure(
-            command=lambda: changeScreen("View_Info", dataset=CK2(tenderFilePath, contractorFilePath).totalContractorsDataFrame.values.tolist(),datatype="CK2"))
+            command=lambda: changeScreen("View_Info", dataset=CK2(tenderFilePath, contractorFilePath).totalContractorsDataFrame.values.tolist(),datatype="CK2", windowName="Procurement Award"))
 
         # Func 6: Ministry Spending Shirlene
         self.btn_MinistrySpend = Button(top)
@@ -361,7 +362,7 @@ class MainPage: #Main screen with buttons to go to other functions
         self.btn_MinistrySpend.configure(pady="0")
         self.btn_MinistrySpend.configure(text='''Func 6: Ministry Spending''')
         self.btn_MinistrySpend.configure(
-            command=lambda: changeScreen("View_Info", dataset=Shirlene.spendingByMinistry(tenderFilePath).values.tolist(),datatype="shirl"))
+            command=lambda: changeScreen("View_Info", dataset=Shirlene.spendingByMinistry(tenderFilePath).values.tolist(),datatype="shirl2", windowName="Ministry Spending"))
 
         #Func 6: Category Spending Shirlene
         self.btn_CatagorySpend = Button(top)
@@ -376,7 +377,7 @@ class MainPage: #Main screen with buttons to go to other functions
         self.btn_CatagorySpend.configure(pady="0")
         self.btn_CatagorySpend.configure(text='''Func 6: Category Spending''')
         self.btn_CatagorySpend.configure(
-            command=lambda: changeScreen("View_Info", dataset=Shirlene.spendingByCategory(tenderFilePath).values.tolist(),datatype="shirl"))
+            command=lambda: changeScreen("View_Info", dataset=Shirlene.spendingByCategory(tenderFilePath).values.tolist(),datatype="shirl", windowName="Category Spending"))
 
         # SEPERATOR
         self.TSeparator1 = ttk.Separator(top)
@@ -395,7 +396,7 @@ class MainPage: #Main screen with buttons to go to other functions
         self.btn_Gary.configure(highlightcolor="black")
         self.btn_Gary.configure(pady="0")
         self.btn_Gary.configure(text='''Gary: Search by Area''')
-        self.btn_Gary.configure(command=lambda: changeScreen("Dropdown_Search", datatype="area"))
+        self.btn_Gary.configure(command=lambda: changeScreen("Dropdown_Search", datatype="area", windowName="Search by Area"))
 
         #Chris: Search by Workhead
         self.btn_ChrisWorkhead = Button(top)
@@ -409,7 +410,7 @@ class MainPage: #Main screen with buttons to go to other functions
         self.btn_ChrisWorkhead.configure(highlightcolor="black")
         self.btn_ChrisWorkhead.configure(pady="0")
         self.btn_ChrisWorkhead.configure(text='''Chris: Search by Workhead''')
-        self.btn_ChrisWorkhead.configure(command=lambda: changeScreen("Dropdown_Search", datatype="workhead"))
+        self.btn_ChrisWorkhead.configure(command=lambda: changeScreen("Dropdown_Search", datatype="workhead", windowName="Search by Workhead"))
     
         #Chris: Expired Contractors
         self.btn_ChrisExpired = Button(top)
@@ -438,7 +439,7 @@ class MainPage: #Main screen with buttons to go to other functions
         self.btn_overtendered.configure(pady="0")
         self.btn_overtendered.configure(text='''Amin: Over Tender Limit''')
         self.btn_overtendered.configure(
-            command=lambda: changeScreen("View_Info", dataset=Amin.overtendered(tenderDict, contractorDict),datatype="amin"))
+            command=lambda: changeScreen("View_Info", dataset=Amin.overtendered(tenderDict, contractorDict),datatype="amin", windowName="Over Tender Limit"))
 
             
         #Amin: Validate Contractor
@@ -453,7 +454,7 @@ class MainPage: #Main screen with buttons to go to other functions
         self.btn_latestContractor.configure(highlightcolor="black")
         self.btn_latestContractor.configure(pady="0")
         self.btn_latestContractor.configure(text='''Amin: Validate Contractor''')
-        self.btn_latestContractor.configure(command=lambda: changeScreen("Dropdown_Search", datatype="amin"))
+        self.btn_latestContractor.configure(command=lambda: changeScreen("Dropdown_Search", datatype="amin", windowName="Validate Contractor"))
 
         #WeiJi: Min/Max
         self.btn_minmax = Button(top)
@@ -467,7 +468,7 @@ class MainPage: #Main screen with buttons to go to other functions
         self.btn_minmax.configure(highlightcolor="black")
         self.btn_minmax.configure(pady="0")
         self.btn_minmax.configure(text='''WeiJi: Min/Max Tenders''')
-        self.btn_minmax.configure(command=lambda: changeScreen("View_Info", dataset=Weiji.bidamount(tenderDict), datatype="weiji"))
+        self.btn_minmax.configure(command=lambda: changeScreen("View_Info", dataset=Weiji.bidamount(tenderDict), datatype="weiji", windowName="Min/Max Tenders"))
         
         #Weiji:Contractor Description
         self.btn_contractordesc = Button(top)
@@ -482,7 +483,7 @@ class MainPage: #Main screen with buttons to go to other functions
         self.btn_contractordesc.configure(pady="0")
         self.btn_contractordesc.configure(text='''Weiji:Contractor Description''')
         self.btn_contractordesc.configure(
-            command=lambda: changeScreen("View_Info", dataset=Weiji.contractordesc(contractorFilePath),datatype="weiji2"))
+            command=lambda: changeScreen("View_Info", dataset=Weiji.contractordesc(contractorFilePath),datatype="weiji2", windowName="Contractor Description"))
 
             
         #Weiji:Contractor Frequency
@@ -497,7 +498,7 @@ class MainPage: #Main screen with buttons to go to other functions
         self.btn_agencyFreq.configure(highlightcolor="black")
         self.btn_agencyFreq.configure(pady="0")
         self.btn_agencyFreq.configure(text='''Weiji:Contractor Frequency''')
-        self.btn_agencyFreq.configure(command=lambda: changeScreen("View_Info_Agency", dataset=Weiji.agencyFreq(Amin.getAgencyProcurement(tenderDict), tenderDict), datatype="weiji"))
+        self.btn_agencyFreq.configure(command=lambda: changeScreen("View_Info_Agency", dataset=Weiji.agencyFreq(Amin.getAgencyProcurement(tenderDict), tenderDict), datatype="weiji", windowName="Contractor Frequency"))
 
         self.btn_close = Button(top)
         self.btn_close.place(relx=0.8, rely=0.05, height=33, width=78)
@@ -527,7 +528,7 @@ class MainPage: #Main screen with buttons to go to other functions
         
 class View_Info: #General Purpose Info box. Give a dataset & (datatype). sendActive() will send a list of items for detail
     """General Purpose Info box. Give a dataset & (datatype). sendActive() will send a list of items for detail"""
-    def __init__(self, top=None, dataset=None, datatype=None):
+    def  __init__(self, top=None, dataset=None, datatype=None, windowName=None):
         '''This class configures and populates the toplevel window.
            top is the toplevel containing window.'''
            
@@ -551,7 +552,12 @@ class View_Info: #General Purpose Info box. Give a dataset & (datatype). sendAct
             top.geometry("800x600")
         else:
             top.geometry("600x450")
-        top.title("View Info")
+            
+        if windowName == None:
+            top.title("View Info")
+        else:
+            top.title(windowName)
+        
         top.configure(background="#d9d9d9")
         
         #Back button
@@ -587,6 +593,12 @@ class View_Info: #General Purpose Info box. Give a dataset & (datatype). sendAct
         #Initial insertion into the listbox based on given dataset/datatype
         if self.datatype == "shirl":
             self.Scrolledlistbox1.insert(END, "%-49.49s : %s" % ("Category", "Spending"))
+            for row in self.dataset:
+                self.Scrolledlistbox1.insert(END, "%-49.49s : $%s" % (row[0], row[1]))
+            self.Scrolledlistbox1.configure(state="disabled")
+            
+        elif self.datatype == "shirl2":
+            self.Scrolledlistbox1.insert(END, "%-49.49s : %s" % ("Ministry", "Spending"))
             for row in self.dataset:
                 self.Scrolledlistbox1.insert(END, "%-49.49s : $%s" % (row[0], row[1]))
             self.Scrolledlistbox1.configure(state="disabled")
@@ -628,7 +640,7 @@ class View_Info: #General Purpose Info box. Give a dataset & (datatype). sendAct
             self.Scrolledlistbox1.activate(0)
 
         #Show or remove access button based on the datatype
-        if self.datatype != "shirl" and self.datatype != "weiji2" and self.datatype != "CK1": 
+        if self.datatype != "shirl" and self.datatype != "shirl2" and self.datatype != "weiji2" and self.datatype != "CK1": 
             self.btn_access = Button(top)
             self.btn_access.place(relx=0.817, rely=0.889, height=33, width=83)
             self.btn_access.configure(activebackground="#d9d9d9")
@@ -699,7 +711,7 @@ class View_Info: #General Purpose Info box. Give a dataset & (datatype). sendAct
 
 class View_Info_Agency:  #View Agency procurement infobox. Give a Window, (dataset) & (datatype)
     """View Agency procurement infobox. Give a Window, (dataset) & (datatype)"""
-    def __init__(self, top=None, dataset=None, datatype=None):
+    def __init__(self, top=None, dataset=None, datatype=None, windowName=None):
         '''This class configures and populates the toplevel window.
            top is the toplevel containing window.'''
            
@@ -722,7 +734,12 @@ class View_Info_Agency:  #View Agency procurement infobox. Give a Window, (datas
         top.geometry("600x450")
         if datatype == "weiji":
             top.geometry("800x600")
-        top.title("View Tenders")
+            
+        if windowName == None:
+            top.title("View Tenders")
+        else:
+            top.title(windowName)
+        
         top.configure(background="#d9d9d9")
 
 
@@ -844,7 +861,7 @@ class View_Info_Agency:  #View Agency procurement infobox. Give a Window, (datas
             
 class View_Total: #Func 3:View total amount of procurement. Modified View_Info class
     """Func 3:View total amount of procurement. Modified View_Info class"""
-    def __init__(self, top=None, dataset=None, datatype=None):
+    def  __init__(self, top=None, dataset=None, datatype=None, windowName=None):
         '''This class configures and populates the toplevel window.
            top is the toplevel containing window.'''
         _bgcolor = '#d9d9d9'  # X11 color: 'gray85'
@@ -861,7 +878,11 @@ class View_Total: #Func 3:View total amount of procurement. Modified View_Info c
         [('selected', _compcolor), ('active', _ana2color)])
 
         top.geometry("600x450")
-        top.title("View Total Procurement")
+        if windowName == None:
+            top.title("View Total Procurement")
+        else:
+            top.title(windowName)
+        
         top.configure(background="#d9d9d9")
 
         
@@ -929,7 +950,7 @@ class View_Total: #Func 3:View total amount of procurement. Modified View_Info c
 
 class Dropdown_Search: #General purpose Search box. Similar to a View_Info box but with a prepopulated dropdown box to reduce the amount of data validation required
     """General purpose Search box. Similar to a View_Info box but with a prepopulated dropdown box to reduce the amount of data validation required"""
-    def __init__(self, top=None, dataset=None, datatype=None):
+    def  __init__(self, top=None, dataset=None, datatype=None, windowName=None):
         '''This class configures and populates the toplevel window.
            top is the toplevel containing window.'''
         _bgcolor = '#d9d9d9'  # X11 color: 'gray85'
@@ -947,7 +968,11 @@ class Dropdown_Search: #General purpose Search box. Similar to a View_Info box b
         [('selected', _compcolor), ('active', _ana2color)])
 
         top.geometry("600x450")
-        top.title("Dropdown Search")
+        if windowName == None:
+            top.title("Dropdown Search")
+        else:
+            top.title(windowName)
+        
         top.configure(background="#d9d9d9")
         top.configure(highlightbackground="#d9d9d9")
         top.configure(highlightcolor="black")
@@ -1080,7 +1105,7 @@ class Dropdown_Search: #General purpose Search box. Similar to a View_Info box b
 
 class View_Expired: #Chris :View Expired Contractors. Modified View_Info class
     """Chris :View Expired Contractors. Modified View_Info class"""
-    def __init__(self, top=None, dataset=None, datatype=None):
+    def  __init__(self, top=None, dataset=None, datatype=None, windowName=None):
         '''This class configures and populates the toplevel window.
            top is the toplevel containing window.'''
         _bgcolor = '#d9d9d9'  # X11 color: 'gray85'
@@ -1097,7 +1122,11 @@ class View_Expired: #Chris :View Expired Contractors. Modified View_Info class
         [('selected', _compcolor), ('active', _ana2color)])
 
         top.geometry("600x450")
-        top.title("View Expired")
+        if windowName == None:
+            top.title("View Expired")
+        else:
+            top.title(windowName)
+        
         top.configure(background="#d9d9d9")
 
         self.btn_back = Button(top)
@@ -1186,7 +1215,7 @@ class View_Expired: #Chris :View Expired Contractors. Modified View_Info class
         
 class View_Contractor: #Shows Contractor Details
     """Shows Contractor Details"""
-    def __init__(self, top=None, dataset=None, datatype=None):
+    def __init__(self, top=None, dataset=None, datatype=None, windowName=None):
         '''This class configures and populates the toplevel window.
            top is the toplevel containing window.'''
         _bgcolor = '#d9d9d9'  # X11 color: 'gray85'
@@ -1196,7 +1225,11 @@ class View_Contractor: #Shows Contractor Details
         _ana2color = '#d9d9d9'  # X11 color: 'gray85'
 
         top.geometry("600x450")
-        top.title("View Contractor")
+        if windowName == None:
+             top.title("View Contractor")
+        else:
+            top.title(windowName)
+       
         top.configure(background="#d9d9d9")
         top.configure(highlightbackground="#d9d9d9")
         top.configure(highlightcolor="black")
@@ -1385,7 +1418,7 @@ class View_Contractor: #Shows Contractor Details
         
 class View_ContractorSpec: #Shows difference in Contractor details. Modified View_Contractor class
     """Shows difference in Contractor details. Modified View_Contractor class"""
-    def __init__(self, top=None, dataset=None, datatype=None):
+    def __init__(self, top=None, dataset=None, datatype=None, windowName=None):
         '''This class configures and populates the toplevel window.
            top is the toplevel containing window.'''
         _bgcolor = '#d9d9d9'  # X11 color: 'gray85'
@@ -1613,7 +1646,7 @@ class View_ContractorSpec: #Shows difference in Contractor details. Modified Vie
 
 class View_Tender: #Shows the Tender Details
     """Shows the Tender Details"""
-    def __init__(self, top=None, dataset=None, datatype=None):
+    def __init__(self, top=None, dataset=None, datatype=None, windowName=None):
         '''This class configures and populates the toplevel window.
            top is the toplevel containing window.'''
         _bgcolor = '#d9d9d9'  # X11 color: 'gray85'

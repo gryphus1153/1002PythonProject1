@@ -1,8 +1,3 @@
-# retrieve government procurement list (agency, awarded amount)
-# retrieves a list of government ministries with list of agencies under each ministry
-# sorts agencies into government ministries and adds tender amount to spending by ministry
-# returns a dictionary with government ministries with total spending
-
 import pandas as pd
 import numpy as np
 import os
