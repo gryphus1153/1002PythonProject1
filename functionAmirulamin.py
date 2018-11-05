@@ -41,6 +41,7 @@ def processContractors(contractorFilePath):
                 contractorDict[key] = contractor
     
     print("Contractor Listing Loaded")
+    print (len(contractorDict))
     return contractorDict
     
 def processTenders(tenderFilePath): 
@@ -59,6 +60,7 @@ def processTenders(tenderFilePath):
                 tender = PAClasses.Tender(row["tender_no."], row["agency"], row["tender_description"], row["award_date"], row["tender_detail_status"], supplierAwarded)
                 tenderDict[key] = tender
     print("Tender Listing Loaded")
+    print (len(tenderDict))
     return tenderDict
 
 def getAgencyProcurement(tenderDict): 
@@ -125,7 +127,7 @@ def getLatest(uen):
     url = url + uen
     try:
         contents = requests.get(url, headers = headers, timeout = 10)
-        print contents.status_code
+        print(contents.status_code)
         if contents.status_code == 500: #check if contractor exists
             return "Contractor does not Exist/has closed down" #Contractor may have closed down
         
@@ -150,5 +152,5 @@ def getLatest(uen):
         contractor = PAClasses.Contractor(company_name, uen_no, workheadGrade, additional_info, expiry_date, address, tel_no)
         return contractor #returns a contractor object
     except Exception as e:
-        print e
+        print(e)
         return "Page could not be reached/connection has timed out"
